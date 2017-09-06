@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	
+
+    <bean id="bpsapi" class="com.simbest.bps.app.api.BPSAPI">
+	</bean>
+
+	<!-- 接口 -->
+	<bean id="WFProcessInstManager" factory-bean="bpsapi"
+		factory-method="getWFProcessInstManager" />
+	<bean id="WFActivityInstManager" factory-bean="bpsapi"
+		factory-method="getWFActivityInstManager" />
+	<bean id="WFWorkItemManager" factory-bean="bpsapi"
+		factory-method="getWFWorkItemManager" />
+	<bean id="WFWorklistQueryManager" factory-bean="bpsapi"
+		factory-method="getWFWorklistQueryManager" />
+	<bean id="WFBackActivityManager" factory-bean="bpsapi"
+		factory-method="getWFBackActivityManager" />
+		
+	<bean id="taskCallbackRetryService" class="com.simbest.cores.service.impl.GenericSQLService">
+        <constructor-arg index="0" value="com.simbest.bps.listener.schedule.mapper.TaskCallbackRetryMapper"/>
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplateSimple" />
+    </bean>
+    <bean id="taskCallbackLogService" class="com.simbest.cores.service.impl.GenericSQLService">
+        <constructor-arg index="0" value="com.simbest.bps.listener.schedule.mapper.TaskCallbackLogMapper"/>
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplateSimple" />
+    </bean>
+
+	
+</beans>

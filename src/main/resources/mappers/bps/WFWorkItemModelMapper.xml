@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="com.simbest.bps.app.mapper.WFWorkItemModelMapper">
+	<!-- 定义缓存 -->
+	<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true" />
+	<resultMap id="WFWorkItemModelResult" type="com.simbest.bps.app.model.WFWorkItemModel">
+		<id column="id" property="id" />
+		<result column="createDate" property="createDate" />
+		<result column="updateDate" property="updateDate" />
+		<result column="createUserCode" property="createUserCode" />
+		<result column="createUserId" property="createUserId" />
+		<result column="createUserName" property="createUserName" />
+		<result column="enabled" property="enabled" />
+		<result column="removed" property="removed" />
+		<result column="updateUserCode" property="updateUserCode" />
+		<result column="updateUserId" property="updateUserId" />
+		<result column="updateUserName" property="updateUserName" />
+		<result column="workItemID" property="workItemID" />
+		<result column="workItemName" property="workItemName" />
+		<result column="workItemDesc" property="workItemDesc" />
+		<result column="currentState" property="currentState" />
+		<result column="participant" property="participant" />
+		<result column="priority" property="priority" />
+		<result column="isTimeOut" property="isTimeOut" />
+		<result column="createTime" property="createTime" />
+		<result column="startTime" property="startTime" />
+		<result column="endTime" property="endTime" />
+		<result column="finalTime" property="finalTime" />
+		<result column="remindTime" property="remindTime" />
+		<result column="actionURL" property="actionURL" />
+		<result column="processInstID" property="processInstID" />
+		<result column="processInstName" property="processInstName" />
+		<result column="activityInstID" property="activityInstID" />
+		<result column="activityInstName" property="activityInstName" />
+		<result column="processDefID" property="processDefID" />
+		<result column="processDefName" property="processDefName" />
+		<result column="processChName" property="processChName" />
+		<result column="activityDefID" property="activityDefID" />
+		<result column="assistant" property="assistant" />
+		<result column="bizState" property="bizState" />
+		<result column="allowAgent" property="allowAgent" />
+		<result column="urlType" property="urlType" />
+		<result column="catalogUUID" property="catalogUUID" />
+		<result column="catalogName" property="catalogName" />
+		<result column="title" property="title" />
+		<result column="receiptid" property="receiptid" />
+		<result column="code" property="code" />
+
+	</resultMap>
+	
+	<select id='getById' parameterType='Long' resultMap="WFWorkItemModelResult">
+		SELECT * FROM wf_workitem_model WHERE id =#{id}
+	</select>
+	
+	<select id='getByWorkItemID' parameterType='Long' resultMap="WFWorkItemModelResult">
+		SELECT * FROM wf_workitem_model WHERE workItemID =#{workItemID}
+	</select>
+
+	<select id="getAll" parameterType="com.simbest.bps.app.model.WFWorkItemModel" resultMap="WFWorkItemModelResult">
+		SELECT * FROM wf_workitem_model
+		<where>
+		<if test="id != null">and id = #{id}</if>
+		<if test="createDate != null">and createDate = #{createDate}</if>
+		<if test="updateDate != null">and updateDate = #{updateDate}</if>
+		<if test="createUserCode != null and createUserCode !=''">and createUserCode = #{createUserCode}</if>
+		<if test="createUserId != null">and createUserId = #{createUserId}</if>
+		<if test="createUserName != null and createUserName !=''">and createUserName = #{createUserName}</if>
+		<if test="enabled != null">and enabled = #{enabled}</if>
+		<if test="removed != null">and removed = #{removed}</if>
+		<if test="updateUserCode != null and updateUserCode !=''">and updateUserCode = #{updateUserCode}</if>
+		<if test="updateUserId != null">and updateUserId = #{updateUserId}</if>
+		<if test="updateUserName != null and updateUserName !=''">and updateUserName = #{updateUserName}</if>
+		<if test="workItemID != null">and workItemID = #{workItemID}</if>
+		<if test="workItemName != null and workItemName !=''">and workItemName = #{workItemName}</if>
+		<if test="workItemDesc != null and workItemDesc !=''">and workItemDesc = #{workItemDesc}</if>
+		<if test="currentState != null">and currentState = #{currentState}</if>
+		<if test="participant != null and participant !=''">and participant = #{participant}</if>
+		<if test="priority != null">and priority = #{priority}</if>
+		<if test="isTimeOut != null and isTimeOut !=''">and isTimeOut = #{isTimeOut}</if>
+		<if test="createTime != null">and createTime = #{createTime}</if>
+		<if test="startTime != null">and startTime = #{startTime}</if>
+		<if test="endTime != null">and endTime = #{endTime}</if>
+		<if test="finalTime != null">and finalTime = #{finalTime}</if>
+		<if test="remindTime != null">and remindTime = #{remindTime}</if>
+		<if test="actionURL != null and actionURL !=''">and actionURL = #{actionURL}</if>
+		<if test="processInstID != null">and processInstID = #{processInstID}</if>
+		<if test="processInstName != null and processInstName !=''">and processInstName = #{processInstName}</if>
+		<if test="activityInstID != null">and activityInstID = #{activityInstID}</if>
+		<if test="activityInstName != null and activityInstName !=''">and activityInstName = #{activityInstName}</if>
+		<if test="processDefID != null ">and processDefID = #{processDefID}</if>
+		<if test="processDefName != null and processDefName !=''">and processDefName = #{processDefName}</if>
+		<if test="processChName != null and processChName !=''">and processChName = #{processChName}</if>
+		<if test="activityDefID != null">and activityDefID = #{activityDefID}</if>
+		<if test="assistant != null and assistant !=''">and assistant = #{assistant}</if>
+		<if test="bizState != null">and bizState = #{bizState}</if>
+		<if test="allowAgent != null and allowAgent !=''">and allowAgent = #{allowAgent}</if>
+		<if test="urlType != null and urlType !=''">and urlType = #{urlType}</if>
+		<if test="catalogUUID != null and catalogUUID !=''">and catalogUUID = #{catalogUUID}</if>
+		<if test="catalogName != null and catalogName !=''">and catalogName = #{catalogName}</if>
+		<if test="title != null and title !=''">and title = #{title}</if>
+		<if test="receiptid != null">and receiptid = #{receiptid}</if>
+		<if test="code != null and code !=''">and code = #{code}</if>
+		</where>
+        <if test="orderByClause != null and orderByClause !=''" >
+            order by ${orderByClause}
+        </if>
+	</select>    
+
+	<insert id="create" parameterType="com.simbest.bps.app.model.WFWorkItemModel" useGeneratedKeys="true" keyProperty="id"  databaseId="mysql" > 
+		INSERT INTO wf_workitem_model (
+			createDate,updateDate,createUserCode,createUserId,createUserName,enabled,removed,updateUserCode,updateUserId,updateUserName,workItemID,workItemName,workItemDesc,currentState,participant,priority,isTimeOut,createTime,startTime,endTime,finalTime,remindTime,actionURL,processInstID,processInstName,activityInstID,activityInstName,processDefID,processDefName,processChName,activityDefID,assistant,bizState,allowAgent,urlType,catalogUUID,catalogName,title,receiptid,code
+		)  VALUES
+		(
+			#{createDate},#{updateDate},#{createUserCode},#{createUserId},#{createUserName},#{enabled},#{removed},#{updateUserCode},#{updateUserId},#{updateUserName},#{workItemID},#{workItemName},#{workItemDesc},#{currentState},#{participant},#{priority},#{isTimeOut},#{createTime},#{startTime},#{endTime},#{finalTime},#{remindTime},#{actionURL},#{processInstID},#{processInstName},#{activityInstID},#{activityInstName},#{processDefID},#{processDefName},#{processChName},#{activityDefID},#{assistant},#{bizState},#{allowAgent},#{urlType},#{catalogUUID},#{catalogName},#{title},#{receiptid},#{code}	
+		)
+	</insert>
+
+	<insert id="batchCreate" parameterType="java.util.List" flushCache="true" statementType="PREPARED" timeout="20"  databaseId="mysql">
+		INSERT INTO wf_workitem_model (
+			createDate,updateDate,createUserCode,createUserId,createUserName,enabled,removed,updateUserCode,updateUserId,updateUserName,workItemID,workItemName,workItemDesc,currentState,participant,priority,isTimeOut,createTime,startTime,endTime,finalTime,remindTime,actionURL,processInstID,processInstName,activityInstID,activityInstName,processDefID,processDefName,processChName,activityDefID,assistant,bizState,allowAgent,urlType,catalogUUID,catalogName,title,receiptid,code	
+		) VALUES
+			<foreach collection="list" index="index" item="item" separator=",">   
+				 (
+				 	#{item.createDate},#{item.updateDate},#{item.createUserCode},#{item.createUserId},#{item.createUserName},#{item.enabled},#{item.removed},#{item.updateUserCode},#{item.updateUserId},#{item.updateUserName},#{item.workItemID},#{item.workItemName},#{item.workItemDesc},#{item.currentState},#{item.participant},#{item.priority},#{item.isTimeOut},#{item.createTime},#{item.startTime},#{item.endTime},#{item.finalTime},#{item.remindTime},#{item.actionURL},#{item.processInstID},#{item.processInstName},#{item.activityInstID},#{item.activityInstName},#{item.processDefID},#{item.processDefName},#{item.processChName},#{item.activityDefID},#{item.assistant},#{item.bizState},#{item.allowAgent},#{item.urlType},#{item.catalogUUID},#{item.catalogName},#{item.title},#{item.receiptid},#{item.code}
+				 )
+			</foreach> 
+	</insert> 
+	
+	<insert id="create" parameterType="com.simbest.bps.app.model.WFWorkItemModel" useGeneratedKeys="true" keyProperty="id"  databaseId="oracle" > 
+		<selectKey resultType="Long" keyProperty="id" order="BEFORE">
+            select WF_WORKITEM_MODEL_SEQ.nextval as id from dual
+        </selectKey> 
+		INSERT INTO wf_workitem_model (id,
+			createDate,updateDate,createUserCode,createUserId,createUserName,enabled,removed,updateUserCode,updateUserId,updateUserName,workItemID,workItemName,workItemDesc,currentState,participant,priority,isTimeOut,createTime,startTime,endTime,finalTime,remindTime,actionURL,processInstID,processInstName,activityInstID,activityInstName,processDefID,processDefName,processChName,activityDefID,assistant,bizState,allowAgent,urlType,catalogUUID,catalogName,title,receiptid,code
+		)  VALUES
+		(
+			#{id},#{createDate},#{updateDate},#{createUserCode},#{createUserId},#{createUserName},#{enabled},#{removed},#{updateUserCode},#{updateUserId},#{updateUserName},#{workItemID},#{workItemName},#{workItemDesc},#{currentState},#{participant},#{priority},#{isTimeOut},#{createTime},#{startTime},#{endTime},#{finalTime},#{remindTime},#{actionURL},#{processInstID},#{processInstName},#{activityInstID},#{activityInstName},#{processDefID},#{processDefName},#{processChName},#{activityDefID},#{assistant},#{bizState},#{allowAgent},#{urlType},#{catalogUUID},#{catalogName},#{title},#{receiptid},#{code}	
+		)
+	</insert>
+
+	<insert id="batchCreate" parameterType="java.util.List" flushCache="true" statementType="PREPARED" timeout="20"  databaseId="oracle">
+		INSERT INTO wf_workitem_model (id,
+			createDate,updateDate,createUserCode,createUserId,createUserName,enabled,removed,updateUserCode,updateUserId,updateUserName,workItemID,workItemName,workItemDesc,currentState,participant,priority,isTimeOut,createTime,startTime,endTime,finalTime,remindTime,actionURL,processInstID,processInstName,activityInstID,activityInstName,processDefID,processDefName,processChName,activityDefID,assistant,bizState,allowAgent,urlType,catalogUUID,catalogName,title,receiptid,code	
+		) VALUES
+			<foreach collection="list" index="index" item="item" separator=",">   
+				 (
+				 	WF_WORKITEM_MODEL_SEQ.nextval,#{item.createDate},#{item.updateDate},#{item.createUserCode},#{item.createUserId},#{item.createUserName},#{item.enabled},#{item.removed},#{item.updateUserCode},#{item.updateUserId},#{item.updateUserName},#{item.workItemID},#{item.workItemName},#{item.workItemDesc},#{item.currentState},#{item.participant},#{item.priority},#{item.isTimeOut},#{item.createTime},#{item.startTime},#{item.endTime},#{item.finalTime},#{item.remindTime},#{item.actionURL},#{item.processInstID},#{item.processInstName},#{item.activityInstID},#{item.activityInstName},#{item.processDefID},#{item.processDefName},#{item.processChName},#{item.activityDefID},#{item.assistant},#{item.bizState},#{item.allowAgent},#{item.urlType},#{item.catalogUUID},#{item.catalogName},#{item.title},#{item.receiptid},#{item.code}
+				 )
+			</foreach> 
+	</insert> 
+
+	<update id="update" parameterType="com.simbest.bps.app.model.WFWorkItemModel" flushCache="true" statementType="PREPARED" timeout="20" >
+		update wf_workitem_model set id = #{id}
+			<if test="updateDate != null">,updateDate = #{updateDate}</if>
+			<if test="enabled != null">,enabled = #{enabled}</if>
+			<if test="removed != null">,removed = #{removed}</if>
+			<if test="updateUserCode != null and updateUserCode != ''">,updateUserCode = #{updateUserCode}</if>
+			<if test="updateUserId != null">,updateUserId = #{updateUserId}</if>
+			<if test="updateUserName != null and updateUserName != ''">,updateUserName = #{updateUserName}</if>
+			<if test="workItemID != null">,workItemID = #{workItemID}</if>
+			<if test="workItemName != null and workItemName != ''">,workItemName = #{workItemName}</if>
+			<if test="workItemDesc != null and workItemDesc != ''">,workItemDesc = #{workItemDesc}</if>
+			<if test="currentState != null">,currentState = #{currentState}</if>
+			<if test="participant != null and participant != ''">,participant = #{participant}</if>
+			<if test="priority != null">,priority = #{priority}</if>
+			<if test="isTimeOut != null and isTimeOut != ''">,isTimeOut = #{isTimeOut}</if>
+			<if test="createTime != null">,createTime = #{createTime}</if>
+			<if test="startTime != null">,startTime = #{startTime}</if>
+			<if test="endTime != null">,endTime = #{endTime}</if>
+			<if test="finalTime != null">,finalTime = #{finalTime}</if>
+			<if test="remindTime != null">,remindTime = #{remindTime}</if>
+			<if test="actionURL != null and actionURL != ''">,actionURL = #{actionURL}</if>
+			<if test="processInstID != null">,processInstID = #{processInstID}</if>
+			<if test="processInstName != null and processInstName != ''">,processInstName = #{processInstName}</if>
+			<if test="activityInstID != null">,activityInstID = #{activityInstID}</if>
+			<if test="activityInstName != null and activityInstName != ''">,activityInstName = #{activityInstName}</if>
+			<if test="processDefID != null">,processDefID = #{processDefID}</if>
+			<if test="processDefName != null and processDefName != ''">,processDefName = #{processDefName}</if>
+			<if test="processChName != null and processChName != ''">,processChName = #{processChName}</if>
+			<if test="activityDefID != null">,activityDefID = #{activityDefID}</if>
+			<if test="assistant != null and assistant != ''">,assistant = #{assistant}</if>
+			<if test="bizState != null">,bizState = #{bizState}</if>
+			<if test="allowAgent != null and allowAgent != ''">,allowAgent = #{allowAgent}</if>
+			<if test="urlType != null and urlType != ''">,urlType = #{urlType}</if>
+			<if test="catalogUUID != null and catalogUUID != ''">,catalogUUID = #{catalogUUID}</if>
+			<if test="catalogName != null and catalogName != ''">,catalogName = #{catalogName}</if>
+			<if test="title != null and title != ''">,title = #{title}</if>
+			<if test="receiptid != null">,receiptid = #{receiptid}</if>
+			<if test="code != null and code != ''">,code = #{code}</if>
+		where id=#{id}
+	</update>  
+	
+	
+	<update id="updateByWorkItemID" parameterType="com.simbest.bps.app.model.WFWorkItemModel" flushCache="true" statementType="PREPARED" timeout="20" >
+		update wf_workitem_model set workItemID = #{workItemID}
+			<if test="updateDate != null">,updateDate = #{updateDate}</if>
+			<if test="enabled != null">,enabled = #{enabled}</if>
+			<if test="removed != null">,removed = #{removed}</if>
+			<if test="updateUserCode != null and updateUserCode != ''">,updateUserCode = #{updateUserCode}</if>
+			<if test="updateUserId != null">,updateUserId = #{updateUserId}</if>
+			<if test="updateUserName != null and updateUserName != ''">,updateUserName = #{updateUserName}</if>
+			<if test="workItemName != null and workItemName != ''">,workItemName = #{workItemName}</if>
+			<if test="workItemDesc != null and workItemDesc != ''">,workItemDesc = #{workItemDesc}</if>
+			<if test="currentState != null">,currentState = #{currentState}</if>
+			<if test="participant != null and participant != ''">,participant = #{participant}</if>
+			<if test="priority != null">,priority = #{priority}</if>
+			<if test="isTimeOut != null and isTimeOut != ''">,isTimeOut = #{isTimeOut}</if>
+			<if test="createTime != null">,createTime = #{createTime}</if>
+			<if test="startTime != null">,startTime = #{startTime}</if>
+			<if test="endTime != null">,endTime = #{endTime}</if>
+			<if test="finalTime != null">,finalTime = #{finalTime}</if>
+			<if test="remindTime != null">,remindTime = #{remindTime}</if>
+			<if test="actionURL != null and actionURL != ''">,actionURL = #{actionURL}</if>
+			<if test="processInstID != null">,processInstID = #{processInstID}</if>
+			<if test="processInstName != null and processInstName != ''">,processInstName = #{processInstName}</if>
+			<if test="activityInstID != null">,activityInstID = #{activityInstID}</if>
+			<if test="activityInstName != null and activityInstName != ''">,activityInstName = #{activityInstName}</if>
+			<if test="processDefID != null">,processDefID = #{processDefID}</if>
+			<if test="processDefName != null and processDefName != ''">,processDefName = #{processDefName}</if>
+			<if test="processChName != null and processChName != ''">,processChName = #{processChName}</if>
+			<if test="activityDefID != null">,activityDefID = #{activityDefID}</if>
+			<if test="assistant != null and assistant != ''">,assistant = #{assistant}</if>
+			<if test="bizState != null">,bizState = #{bizState}</if>
+			<if test="allowAgent != null and allowAgent != ''">,allowAgent = #{allowAgent}</if>
+			<if test="urlType != null and urlType != ''">,urlType = #{urlType}</if>
+			<if test="catalogUUID != null and catalogUUID != ''">,catalogUUID = #{catalogUUID}</if>
+			<if test="catalogName != null and catalogName != ''">,catalogName = #{catalogName}</if>
+			<if test="title != null and title != ''">,title = #{title}</if>
+			<if test="receiptid != null">,receiptid = #{receiptid}</if>
+			<if test="code != null and code != ''">,code = #{code}</if>
+		where workItemID=#{workItemID}
+	</update> 
+
+	
+    
+	<update id="delete" parameterType="Long" flushCache="true" statementType="PREPARED" timeout="20">
+		update wf_workitem_model set
+				enabled=0,
+				removed=1
+		where id=#{id}
+	</update>
+	<update id="deleteByProcessInst" parameterType="Long" flushCache="true" statementType="PREPARED" timeout="20">
+		update wf_workitem_model set
+				enabled=0,
+				removed=1
+		where processInstID=#{processInstID}
+	</update>
+	<update id="updateTitleByInstID" parameterType="java.util.HashMap" flushCache="true" statementType="PREPARED" timeout="20">
+		update wf_workitem_model set title = #{title},processInstName = #{title}
+		where processInstID=#{processInstID}
+	</update>
+</mapper>

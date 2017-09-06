@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="com.simbest.bps.query.mapper.ActBusinessStatusMapper">
+    <!-- 定义缓存 -->
+    <cache eviction="LRU" flushInterval="60000" size="512" readOnly="true" />
+    <resultMap id="ActBusinessStatusResult" type="ActBusinessStatus">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="title" property="title" />
+        <result column="businessKey" property="businessKey" />
+        <result column="processChName" property="processChName" />
+        <result column="processDefName" property="processDefName" />
+        <result column="processDefID" property="processDefID" />
+        <result column="processInstID" property="processInstID" />
+        <result column="currentState" property="currentState" />
+        <result column="createUserId" property="createUserId" />
+        <result column="createUserCode" property="createUserCode" />
+        <result column="createUserName" property="createUserName" />
+        <result column="createOrgId" property="createOrgId" />
+        <result column="createOrgName" property="createOrgName" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+        <result column="startTime" property="startTime" />
+        <result column="endTime" property="endTime" />
+        <result column="duration" property="duration" />
+        <result column="startActivityId" property="startActivityId" />
+        <result column="startActivityName" property="startActivityName" />
+        <result column="endActivityId" property="endActivityId" />
+        <result column="endActivityName" property="endActivityName" />
+        <result column="previousAssistant" property="previousAssistant" />
+        <result column="previousAssistantUniqueCode" property="previousAssistantUniqueCode" />
+        <result column="previousAssistantName" property="previousAssistantName" />
+        <result column="previousAssistantDate" property="previousAssistantDate" />
+        <result column="previousAssistantOrgId" property="previousAssistantOrgId" />
+        <result column="previousAssistantOrgName" property="previousAssistantOrgName" />
+        <result column="act_parentId" property="act_parentId" />
+		<result column="enabled" property="enabled" /> 
+		<result column="removed" property="removed" />
+		<result column="workItemID" property="workItemID" />
+		<result column="activityDefID" property="activityDefID" />
+		<result column="activityInstName" property="activityInstName" />
+		<result column="participant" property="participant" />
+		<result column="assistant" property="assistant" />
+		<result column="workItemStartTime" property="workItemStartTime" />
+		<result column="assessor_name" property="assessor_name" />
+    </resultMap>
+
+    <select id="getById" parameterType="Long" resultMap="ActBusinessStatusResult">
+        SELECT * FROM act_business_status WHERE id=#{id}
+    </select>
+    
+    <select id="getChildByParentId" parameterType="Long" resultMap="ActBusinessStatusResult">
+        SELECT * FROM act_business_status WHERE act_parentId=#{act_parentId}
+    </select>
+
+    <select id="getByUnique" parameterType="String" resultMap="ActBusinessStatusResult">
+        SELECT * FROM act_business_status WHERE id=#{id}
+    </select>
+    
+    <select id="getByProcessInst" parameterType="Long" resultMap="ActBusinessStatusResult">
+        SELECT * FROM act_business_status WHERE processInstID=#{processInstID}
+    </select>
+
+    <select id="getAll" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
+        SELECT * FROM act_business_status
+        <where>
+        and enabled = 1
+            <if test="id != null">and id = #{id}</if>
+            <if test="code != null and code !=''">and code = #{code}</if>
+            <if test="title != null and title !=''">and title = #{title}</if>
+            <if test="businessKey != null">and businessKey = #{businessKey}</if>
+            <if test="processChName != null and processChName !=''">and processChName = #{processChName}</if>
+            <if test="processDefName != null and processDefName !=''">and processDefName = #{processDefName}</if>
+            <if test="processDefID != null">and processDefID = #{processDefID}</if>
+            <if test="processInstID != null">and processInstID = #{processInstID}</if>
+            <if test="currentState != null">and currentState = #{currentState}</if>
+            <if test="createUserId != null ">and createUserId = #{createUserId}</if>
+            <if test="createUserCode != null and createUserCode !=''">and createUserCode = #{createUserCode}</if>
+            <if test="createUserName != null and createUserName !=''">and createUserName = #{createUserName}</if>
+            <if test="createOrgId != null">and createOrgId = #{createOrgId}</if>
+            <if test="createOrgName != null and createOrgName !=''">and createOrgName = #{createOrgName}</if>
+            <if test="startTime != null">and startTime = #{startTime}</if>
+            <if test="endTime != null">and endTime = #{endTime}</if>
+            <if test="duration != null">and duration = #{duration}</if>
+            <if test="startActivityId != null and startActivityId !=''">and startActivityId = #{startActivityId}</if>
+            <if test="startActivityName != null and startActivityName !=''">and startActivityName = #{startActivityName}</if>
+            <if test="endActivityId != null and endActivityId !=''">and endActivityId = #{endActivityId}</if>
+            <if test="endActivityName != null and endActivityName !=''">and endActivityName = #{endActivityName}</if>
+            <if test="previousAssistant != null">and previousAssistant = #{previousAssistant}</if>
+            <if test="previousAssistantUniqueCode != null and previousAssistantUniqueCode !=''">and previousAssistantUniqueCode = #{previousAssistantUniqueCode}</if>
+            <if test="previousAssistantName != null and previousAssistantName !=''">and previousAssistantName = #{previousAssistantName}</if>
+            <if test="previousAssistantDate != null">and previousAssistantDate = #{previousAssistantDate}</if>
+            <if test="previousAssistantOrgId != null">and previousAssistantOrgId = #{previousAssistantOrgId}</if>
+            <if test="previousAssistantOrgName != null and previousAssistantOrgName !=''">and previousAssistantOrgName = #{previousAssistantOrgName}</if>
+            <if test="act_parentId != null">and act_parentId = #{act_parentId}</if>
+        </where>
+        <if test="orderByClause != null and orderByClause !=''" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <insert id="create" parameterType="ActBusinessStatus" useGeneratedKeys="true" keyProperty="id" databaseId="mysql">
+        INSERT INTO act_business_status (code,title,businessKey,processChName,processDefName,processDefID,processInstID,currentState,createUserId,createUserCode,createUserName,createOrgId,createOrgName,createTime,updateTime,startTime,endTime,duration,startActivityId,startActivityName,endActivityId,endActivityName,previousAssistant,previousAssistantUniqueCode,previousAssistantName,previousAssistantDate,previousAssistantOrgId,previousAssistantOrgName,act_parentId,enabled,removed)
+        VALUES (#{code},#{title},#{businessKey},#{processChName},#{processDefName},#{processDefID},#{processInstID},#{currentState},#{createUserId},#{createUserCode},#{createUserName},#{createOrgId},#{createOrgName},#{createTime},#{updateTime},#{startTime},#{endTime},#{duration},#{startActivityId},#{startActivityName},#{endActivityId},#{endActivityName},#{previousAssistant},#{previousAssistantUniqueCode},#{previousAssistantName},#{previousAssistantDate},#{previousAssistantOrgId},#{previousAssistantOrgName},#{act_parentId},#{enabled},#{removed})
+    </insert>
+    <insert id="create" parameterType="ActBusinessStatus" useGeneratedKeys="false" keyProperty="id" databaseId="oracle">
+        <selectKey resultType="Long" keyProperty="id" order="BEFORE">
+            select act_business_status_seq.nextval as id from dual
+        </selectKey>
+        INSERT INTO act_business_status (id,code,title,businessKey,processChName,processDefName,processDefID,processInstID,currentState,createUserId,createUserCode,createUserName,createOrgId,createOrgName,createTime,updateTime,startTime,endTime,duration,startActivityId,startActivityName,endActivityId,endActivityName,previousAssistant,previousAssistantUniqueCode,previousAssistantName,previousAssistantDate,previousAssistantOrgId,previousAssistantOrgName,act_parentId,enabled,removed)
+        VALUES (#{id},#{code},#{title},#{businessKey},#{processChName},#{processDefName},#{processDefID},#{processInstID},#{currentState},#{createUserId},#{createUserCode},#{createUserName},#{createOrgId},#{createOrgName},#{createTime},#{updateTime},#{startTime},#{endTime},#{duration},#{startActivityId},#{startActivityName},#{endActivityId},#{endActivityName},#{previousAssistant},#{previousAssistantUniqueCode},#{previousAssistantName},#{previousAssistantDate},#{previousAssistantOrgId},#{previousAssistantOrgName},#{act_parentId},#{enabled},#{removed})
+    </insert>
+
+    <insert id="batchCreate" parameterType="java.util.List" flushCache="true" statementType="PREPARED" timeout="20" databaseId="mysql">
+        INSERT INTO act_business_status (code,title,businessKey,processChName,processDefName,processDefID,processInstID,currentState,createUserId,createUserCode,createUserName,createOrgId,createOrgName,createTime,updateTime,startTime,endTime,duration,startActivityId,startActivityName,endActivityId,endActivityName,previousAssistant,previousAssistantUniqueCode,previousAssistantName,previousAssistantDate,previousAssistantOrgId,previousAssistantOrgName,act_parentId,enabled,removed) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.code},#{item.title},#{item.businessKey},#{item.processChName},#{item.processDefName},#{item.processDefID},#{item.processInstID},#{item.currentState},#{item.createUserId},#{item.createUserCode},#{item.createUserName},#{item.createOrgId},#{item.createOrgName},#{item.createTime},#{item.updateTime},#{item.startTime},#{item.endTime},#{item.duration},#{item.startActivityId},#{item.startActivityName},#{item.endActivityId},#{item.endActivityName},#{item.previousAssistant},#{item.previousAssistantUniqueCode},#{item.previousAssistantName},#{item.previousAssistantDate},#{item.previousAssistantOrgId},#{item.previousAssistantOrgName},#{item.act_parentId},#{item.enabled},#{item.removed})
+        </foreach>
+    </insert>
+    <insert id="batchCreate" parameterType="java.util.List" flushCache="true" statementType="PREPARED" timeout="20" databaseId="oracle">
+        INSERT INTO act_business_status (id,code,title,businessKey,processChName,processDefName,processDefID,processInstID,currentState,createUserId,createUserCode,createUserName,createOrgId,createOrgName,createTime,updateTime,startTime,endTime,duration,startActivityId,startActivityName,endActivityId,endActivityName,previousAssistant,previousAssistantUniqueCode,previousAssistantName,previousAssistantDate,previousAssistantOrgId,previousAssistantOrgName,act_parentId,enabled,removed) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (act_business_status_seq.nextval,#{item.code},#{item.title},#{item.businessKey},#{item.processChName},#{item.processDefName},#{item.processDefID},#{item.processInstID},#{item.currentState},#{item.createUserId},#{item.createUserCode},#{item.createUserName},#{item.createOrgId},#{item.createOrgName},#{item.createTime},#{item.updateTime},#{item.startTime},#{item.endTime},#{item.duration},#{item.startActivityId},#{item.startActivityName},#{item.endActivityId},#{item.endActivityName},#{item.previousAssistant},#{item.previousAssistantUniqueCode},#{item.previousAssistantName},#{item.previousAssistantDate},#{item.previousAssistantOrgId},#{item.previousAssistantOrgName},#{item.act_parentId},#{item.enabled},#{item.removed})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="ActBusinessStatus" flushCache="true" statementType="PREPARED" timeout="20" >
+        update act_business_status 
+        <set>
+                <if test="enabled != null">enabled=#{enabled},</if>
+                <if test="removed != null">removed=#{removed},</if>
+                <if test="code != null and code != ''">code=#{code},</if>
+                <if test="title != null and title != ''">title=#{title},</if>
+                <if test="businessKey != null">businessKey=#{businessKey},</if>
+                <if test="processChName != null and processChName != ''">processChName=#{processChName},</if>
+                <if test="processDefName != null and processDefName != ''">processDefName=#{processDefName},</if>
+                <if test="processDefID != null">processDefID=#{processDefID},</if>
+                <if test="processInstID != null">processInstID=#{processInstID},</if>
+                <if test="currentState != null">currentState=#{currentState},</if>
+                <if test="createUserId != null">createUserId=#{createUserId},</if>
+                <if test="createUserCode != null and createUserCode != ''">createUserCode=#{createUserCode},</if>
+                <if test="createUserName != null and createUserName != ''">createUserName=#{createUserName},</if>
+                <if test="createOrgId != null">createOrgId=#{createOrgId},</if>
+                <if test="createOrgName != null and createOrgName != ''">createOrgName=#{createOrgName},</if>
+                <if test="createTime != null">createTime = #{createTime},</if>
+                <if test="updateTime != null">updateTime = #{updateTime},</if>
+                <if test="startTime != null">startTime=#{startTime},</if>
+                <if test="endTime != null">endTime=#{endTime},</if>
+                <if test="duration != null">duration=#{duration},</if>
+                <if test="startActivityId != null and startActivityId != ''">startActivityId=#{startActivityId},</if>
+                <if test="startActivityName != null and startActivityName != ''">startActivityName=#{startActivityName},</if>
+                <if test="endActivityId != null and endActivityId != ''">endActivityId=#{endActivityId},</if>
+                <if test="endActivityName != null and endActivityName != ''">endActivityName=#{endActivityName},</if>
+                <if test="previousAssistant != null"> previousAssistant = #{previousAssistant},</if>
+            	<if test="previousAssistantUniqueCode != null and previousAssistantUniqueCode !=''"> previousAssistantUniqueCode = #{previousAssistantUniqueCode},</if>
+            	<if test="previousAssistantName != null and previousAssistantName !=''"> previousAssistantName = #{previousAssistantName},</if>
+           		<if test="previousAssistantDate != null"> previousAssistantDate = #{previousAssistantDate},</if>
+           	 	<if test="previousAssistantOrgId != null"> previousAssistantOrgId = #{previousAssistantOrgId},</if>
+            	<if test="previousAssistantOrgName != null and previousAssistantOrgName !=''"> previousAssistantOrgName = #{previousAssistantOrgName},</if>
+            	<if test="act_parentId != null"> act_parentId = #{act_parentId},</if>
+            </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="ActBusinessStatus" flushCache="true" statementType="PREPARED" timeout="20">
+        update act_business_status set enabled = 0,removed = 1 where id = #{id}
+    </delete>
+
+    <update id="batchDelete" flushCache="true" statementType="PREPARED" timeout="20">
+        update act_business_status set enabled = 0,removed = 1 where id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    
+    <select id="queryMyTask" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
+        SELECT act_business_status.*,
+        wf_workitem_model.workItemID , wf_workitem_model.activityDefID, wf_workitem_model.activityInstName, wf_workitem_model.participant, wf_workitem_model.assistant, wf_workitem_model.startTime as workItemStartTime
+        FROM act_business_status,wf_workitem_model WHERE 
+        act_business_status.processInstID =wf_workitem_model.processInstID
+        and wf_workitem_model.currentState = 10<!-- 运行（10） -->
+        and wf_workitem_model.participant = #{uniqueCode}
+        <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
+        and act_business_status.enabled = 1
+        and wf_workitem_model.enabled = 1
+        order by wf_workitem_model.startTime desc
+    </select>
+    <select id="countMyTask" parameterType="ActBusinessStatus"  resultType="Integer">
+        SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model WHERE 
+        act_business_status.processInstID =wf_workitem_model.processInstID
+        and wf_workitem_model.currentState = 10<!-- 运行（10） -->
+        and act_business_status.enabled = 1
+        and wf_workitem_model.enabled = 1
+        and wf_workitem_model.participant = #{uniqueCode}
+        <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
+    </select>
+    <select id="queryMyJoin" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
+        SELECT DISTINCT act_business_status.*,wf_workitem.activityInstName,
+        m_ha_pm_instance.assessor_name 
+        FROM act_business_status 
+        LEFT JOIN 
+        (select * from wf_workitem_model A  where workItemID=(select max(workItemID) from wf_workitem_model B where A.processInstID=B.processInstID)) wf_workitem 
+        on wf_workitem.processInstID = act_business_status.processInstID
+        ,wf_workitem_model,m_ha_pm_instance WHERE
+        act_business_status.processInstID =wf_workitem_model.processInstID
+        and act_business_status.businessKey =m_ha_pm_instance.id
+        and wf_workitem_model.currentState in (12,13) <!-- 完成（12）、终止（13） -->
+        and wf_workitem_model.assistant = #{uniqueCode}
+        <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
+        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
+        <if test="currentState != null">and act_business_status.currentState = #{currentState}</if>
+        and act_business_status.enabled = 1
+        and wf_workitem_model.enabled = 1
+        order by wf_workitem.endTime desc
+    </select>
+    <select id="countMyJoin" parameterType="ActBusinessStatus"  resultType="Integer">
+        SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model WHERE 
+        act_business_status.processInstID =wf_workitem_model.processInstID
+        and wf_workitem_model.currentState in (12,13) <!-- 完成（12）、终止（13） -->
+        and act_business_status.enabled = 1
+        and wf_workitem_model.enabled = 1
+        and wf_workitem_model.assistant = #{uniqueCode}
+        <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
+        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
+        <if test="currentState != null">and act_business_status.currentState = #{currentState}</if>
+    </select>
+</mapper>

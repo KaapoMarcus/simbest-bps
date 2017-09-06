@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace='com.simbest.bps.listener.schedule.mapper.TaskCallbackLogMapper'>
+	<!-- 定义缓存 -->
+	<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>
+     
+  	<resultMap id="TaskCallbackLogResult" type="TaskCallbackLog">
+        <id column="id" property="id" />  
+        <result column="callbackType" property="callbackType" />      
+        <result column="callbackStartDate" property="callbackStartDate" />
+        <result column="callbackEndDate" property="callbackEndDate" />
+        <result column="callbackDuration" property="callbackDuration" />
+        <result column="callbackResult" property="callbackResult" />
+        <result column="callbackError" property="callbackError" />
+        <result column="actBusinessStatusId" property="actBusinessStatusId" />
+    </resultMap>
+	
+	<select id="getAll" resultMap="TaskCallbackLogResult">
+         SELECT * FROM act_task_callback_log
+    </select>
+
+	<insert id="create" parameterType="TaskCallbackLog" useGeneratedKeys="true" keyProperty="id" databaseId="mysql">
+        insert into act_task_callback_log (callbackType,callbackStartDate,callbackEndDate,callbackDuration,callbackResult,callbackError,actBusinessStatusId)
+        values (#{callbackType},#{callbackStartDate},#{callbackEndDate},#{callbackDuration},#{callbackResult},#{callbackError},#{actBusinessStatusId})
+    </insert>
+    <insert id="create" parameterType="TaskCallbackLog" useGeneratedKeys="false" keyProperty="id" databaseId="oracle">
+        <selectKey resultType="Long" keyProperty="id" order="BEFORE">
+            select act_task_callback_log_seq.nextval as id from dual
+        </selectKey>
+        insert into act_task_callback_log (id,callbackType,callbackStartDate,callbackEndDate,callbackDuration,callbackResult,callbackError,actBusinessStatusId)
+        values (#{id},#{callbackType},#{callbackStartDate},#{callbackEndDate},#{callbackDuration},#{callbackResult},#{callbackError},#{actBusinessStatusId})
+    </insert>
+</mapper>
