@@ -190,7 +190,6 @@
         </dependency>
 		<!-- BPS end-->
         <!-- BPS 3rd-->
-        <!--
         <dependency>
 		    <groupId>stax</groupId>
 		    <artifactId>stax-api</artifactId>
@@ -225,7 +224,7 @@
 		    <groupId>org.eclipse.emf.commonj</groupId>
 		    <artifactId>sdo</artifactId>
 		    <version>2.3.0-v200706262000</version>
-		</dependency>-->
+		</dependency>
 		<!-- BPS 3rd end-->
 		
 	</dependencies>
