@@ -173,7 +173,7 @@
             #{item}
         </foreach>
     </update>
-    
+    <!--查询待办-->
     <select id="queryMyTask" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
         SELECT act_business_status.*,
         wf_workitem_model.workItemID , wf_workitem_model.activityDefID, wf_workitem_model.activityInstName, wf_workitem_model.participant, wf_workitem_model.assistant, wf_workitem_model.startTime as workItemStartTime

@@ -20,7 +20,8 @@ import com.simbest.bps.query.model.ActBusinessStatus;
 import com.simbest.bps.query.service.IActBusinessStatusService;
 import com.wordnik.swagger.annotations.ApiOperation;
 /**
- * 与我有关
+ * 查询待办信息
+ *
  * @author Administrator
  *
  */

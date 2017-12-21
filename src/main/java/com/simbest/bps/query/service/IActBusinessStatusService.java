@@ -10,8 +10,8 @@ import com.simbest.cores.service.IGenericService;
 import com.simbest.cores.utils.pages.PageSupport;
 import com.simbest.bps.query.model.ActBusinessStatus;
 
-
 /**
+ * 查询待办信息业务操作
  */
 public interface IActBusinessStatusService extends IGenericService<ActBusinessStatus,Long> {
 
