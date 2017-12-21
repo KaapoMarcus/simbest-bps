@@ -195,9 +195,9 @@
         and wf_workitem_model.participant = #{uniqueCode}
         <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
     </select>
+    <!--查询我的已办-->
     <select id="queryMyJoin" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
-        SELECT DISTINCT act_business_status.*,wf_workitem.activityInstName,
-        m_ha_pm_instance.assessor_name 
+        SELECT DISTINCT act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name
         FROM act_business_status 
         LEFT JOIN 
         (select * from wf_workitem_model A  where workItemID=(select max(workItemID) from wf_workitem_model B where A.processInstID=B.processInstID)) wf_workitem 
@@ -214,6 +214,7 @@
         and wf_workitem_model.enabled = 1
         order by wf_workitem.endTime desc
     </select>
+
     <select id="countMyJoin" parameterType="ActBusinessStatus"  resultType="Integer">
         SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model WHERE 
         act_business_status.processInstID =wf_workitem_model.processInstID
