@@ -1,9 +1,12 @@
 package com.simbest.bps.app.web.listener;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.simbest.cores.admin.authority.model.ShiroUser;
+import com.simbest.cores.shiro.AppUserSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,9 @@ import com.simbest.bps.query.service.IActBusinessStatusService;
 public class WFWorkItemListener {
 
 	private static transient final Log log = LogFactory.getLog(WFWorkItemListener.class);
-	
+
+    @Autowired
+    private AppUserSession appUserSession;
 	@Autowired
 	private IWFWorkItemModelService wFWorkItemModelService;
 	@Autowired
@@ -47,7 +52,7 @@ public class WFWorkItemListener {
     @Autowired
     private UserTaskSubmitor userTaskSubmitor;
 	/**
-	 * 工作项创建完成
+	 * 工作项创建完成 -- 插入
 	 */
 	@RequestMapping(value = "/created", method = RequestMethod.POST)
 	@ResponseBody
@@ -66,12 +71,22 @@ public class WFWorkItemListener {
 		}
 		int ret = 0;
 		try{
+            ShiroUser user = appUserSession.getCurrentUser();
+            assistant = user.getUserCode();
+            workItemName = URLDecoder.decode( workItemName,"UTF-8" );
+            workItemDesc = URLDecoder.decode( workItemDesc,"UTF-8" );
+            processInstName = URLDecoder.decode( processInstName,"UTF-8" );
+            processDefName = URLDecoder.decode( processDefName,"UTF-8" );
+            processChName = URLDecoder.decode( processChName,"UTF-8" );
+            activityInstName = URLDecoder.decode( activityInstName,"UTF-8" );
+            catalogName = URLDecoder.decode( catalogName,"UTF-8" );
+            title = URLDecoder.decode( title,"UTF-8" );
 			ActBusinessStatus businessStatus = statusService.getByProcessInst(Long.parseLong(processInstID));
 			businessStatus.setWorkItemID(Long.parseLong(workItemID));
 			businessStatus.setActivityDefID(activityDefID);
 			userTaskSubmitor.createUserTaskCallback(businessStatus, participant);
 			ret = wFWorkItemModelService.created(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName,title, receiptId, code, currentUserCode); 
-			log.debug(ret);
+			log.debug("WFWorkItemListener>>>>>>>>>>>>>>>>>>>created>>>>>"+ret);
 			o.put("mes", ret > 0 ? "操作成功!" : "操作失败!"); // 返回值兼容批量更新
 			o.put("ret", ret);
 			o.put("data", null);
@@ -84,7 +99,7 @@ public class WFWorkItemListener {
 	}
 	
 	/**
-	 * 工作项完成后
+	 * 工作项完成后 -- 更新
 	 */
 	@RequestMapping(value = "/completed", method = RequestMethod.POST)
 	@ResponseBody
@@ -103,17 +118,23 @@ public class WFWorkItemListener {
 		}
 		int ret = 0;
 		try{
+            workItemName = URLDecoder.decode( workItemName,"UTF-8" );
+            workItemDesc = URLDecoder.decode( workItemDesc,"UTF-8" );
+            processInstName = URLDecoder.decode( processInstName,"UTF-8" );
+            activityInstName = URLDecoder.decode( activityInstName,"UTF-8" );
+            processDefName = URLDecoder.decode( processDefName,"UTF-8" );
+            processChName = URLDecoder.decode( processChName,"UTF-8" );
+            catalogName = URLDecoder.decode( catalogName,"UTF-8" );
 			ActBusinessStatus businessStatus = statusService.getByProcessInst(Long.parseLong(processInstID));
 			businessStatus.setWorkItemID(Long.parseLong(workItemID));
 			businessStatus.setActivityDefID(activityDefID);
 			userTaskSubmitor.removeUserTaskCallback(businessStatus, assistant);
-			
-			ret = wFWorkItemModelService.updateByWorkItemID(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName, currentUserCode); 
+			ret = wFWorkItemModelService.updateByWorkItemID(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName, currentUserCode);
 			ret = statusService.updateListener(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName, currentUserCode);
 			List<WFOptMsg> optMsgList= WFWorkItemManager.getApprovalMsgByTaskID(Long.parseLong(workItemID), null);
 			WFWorkItemModel wFWorkItemModel = wFWorkItemModelService.getByWorkItemID(Long.parseLong(workItemID));
 			wFOptMsgModelService.create(processDefID,processInstID,activityInstID,workItemID,optMsgList,wFWorkItemModel);
-			log.debug(ret);
+            log.debug("WFWorkItemListener>>>>>>>>>>>>>>>>>>>completed>>>>>"+ret);
 			o.put("mes", ret > 0 ? "操作成功!" : "操作失败!"); // 返回值兼容批量更新
 			o.put("ret", ret);
 			o.put("data", null);

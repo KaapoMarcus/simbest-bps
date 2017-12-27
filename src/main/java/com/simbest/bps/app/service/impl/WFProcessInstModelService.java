@@ -18,6 +18,9 @@ import com.simbest.bps.app.model.WFProcessInstModel;
 import com.simbest.bps.app.service.IWFProcessInstModelService;
 import com.simbest.bps.app.service.IWFWorkItemModelService;
 
+/**
+ * 流程实例 业务操作
+ */
 @Service(value="wFProcessInstModelService")
 public class WFProcessInstModelService extends WFBPSModelService<WFProcessInstModel,Long> implements IWFProcessInstModelService{
 
@@ -42,6 +45,35 @@ public class WFProcessInstModelService extends WFBPSModelService<WFProcessInstMo
         super.setMapper(mapper);
 	}
 
+    /**
+     * 流程开始 - 提交
+     * @param processInstID
+     * @param processInstName
+     * @param processInstDesc
+     * @param creator
+     * @param owner
+     * @param currentState
+     * @param createTime
+     * @param startTime
+     * @param endTime
+     * @param finalTime
+     * @param remindTime
+     * @param parentProcID
+     * @param parentActID
+     * @param processDefID
+     * @param isTimeOut
+     * @param timeOutNum
+     * @param timeOutNumDesc
+     * @param updateVersion
+     * @param processDefName
+     * @param catalogUUID
+     * @param catalogName
+     * @param title
+     * @param receiptId
+     * @param code
+     * @param currentUserCode
+     * @return
+     */
 	@Override
 	public int start(String processInstID, String processInstName,
 			String processInstDesc, String creator, String owner,
@@ -52,7 +84,6 @@ public class WFProcessInstModelService extends WFBPSModelService<WFProcessInstMo
 			String updateVersion, String processDefName, String catalogUUID,
 			String catalogName, String title, String receiptId,
 			String code, String currentUserCode) {
-		
 		WFProcessInstModel wFProcessInstModel = new WFProcessInstModel();
 		wrapCreateInfo(wFProcessInstModel);
 		wFProcessInstModel.setProcessInstID(Long.parseLong(processInstID));
@@ -76,7 +107,6 @@ public class WFProcessInstModelService extends WFBPSModelService<WFProcessInstMo
 		wFProcessInstModel.setProcessDefName(processDefName);
 		wFProcessInstModel.setCatalogUUID(catalogUUID);
 		wFProcessInstModel.setCatalogName(catalogName);
-		
 		wFProcessInstModel.setTitle(title);
 		wFProcessInstModel.setReceiptid(Long.parseLong(receiptId));
 		wFProcessInstModel.setCode(code);

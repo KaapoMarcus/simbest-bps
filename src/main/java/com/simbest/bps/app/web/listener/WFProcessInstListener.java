@@ -1,5 +1,6 @@
 package com.simbest.bps.app.web.listener;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +50,12 @@ public class WFProcessInstListener {
 		}
 		int ret = 0;
 		try{
+            //流程提交时插入流程实例数据
+            processInstName = URLDecoder.decode( processInstName,"UTF-8" );
+            processInstDesc = URLDecoder.decode( processInstDesc,"UTF-8" );
+            processDefName = URLDecoder.decode( processDefName,"UTF-8" );
+            catalogName = URLDecoder.decode( catalogName,"UTF-8" );
+            title = URLDecoder.decode( title,"UTF-8" );
 			ret = wFProcessInstModelService.start(processInstID, processInstName, processInstDesc, creator, owner, currentState, createTime, startTime, endTime, finalTime, remindTime, parentProcID, parentActID, processDefID, isTimeOut, timeOutNum, timeOutNumDesc, updateVersion, processDefName, catalogUUID, catalogName, title, receiptId, code, currentUserCode);
 			ret = statusService.createListener(processInstID, processInstName, processInstDesc, creator, owner, currentState, createTime, startTime, endTime, finalTime, remindTime, parentProcID, parentActID, processDefID, isTimeOut, timeOutNum, timeOutNumDesc, updateVersion, processDefName, catalogUUID, catalogName, title, receiptId, code, currentUserCode);
 			log.debug("WFProcessInstListener>>>>>>>>>>>>>>>>>>>start>>>>>"+ret);
@@ -82,6 +89,11 @@ public class WFProcessInstListener {
 		}
 		int ret = 0;
 		try{
+            processInstName = URLDecoder.decode( processInstName,"UTF-8" );
+            processInstDesc = URLDecoder.decode( processInstDesc,"UTF-8" );
+            processDefName = URLDecoder.decode( processDefName,"UTF-8" );
+            catalogName = URLDecoder.decode( catalogName,"UTF-8" );
+            title = URLDecoder.decode( title,"UTF-8" );
 			/*流程结束更新结束时间*/
 			ret = wFProcessInstModelService.updateListenerByProcess(processInstID, processInstName, processInstDesc, creator, owner, currentState, createTime, startTime, endTime, finalTime, remindTime, parentProcID, parentActID, processDefID, isTimeOut, timeOutNum, timeOutNumDesc, updateVersion, processDefName, catalogUUID, catalogName, title, receiptId, code, currentUserCode);
 			/*流程结束更新结束时间*/

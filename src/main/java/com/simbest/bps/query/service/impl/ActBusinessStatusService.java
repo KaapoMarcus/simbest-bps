@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 流程业务操作控制
  */
 @Service
 public class ActBusinessStatusService extends GenericMapperService<ActBusinessStatus,Long> implements IActBusinessStatusService {

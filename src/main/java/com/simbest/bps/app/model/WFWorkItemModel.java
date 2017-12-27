@@ -15,6 +15,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.simbest.cores.utils.annotations.ProcessProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
+/**
+ * 工作项对应的实体类
+ */
 @Entity
 @Table(name = "WF_WORKITEM_MODEL")
 public class WFWorkItemModel  extends WFBPSModel<WFWorkItemModel>{

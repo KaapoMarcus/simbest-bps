@@ -2,7 +2,9 @@ package com.simbest.bps.app.service;
 
 import com.simbest.bps.app.model.WFWorkItemModel;
 
-
+/**
+ * 流程-工作项业务控制
+ */
 public interface IWFWorkItemModelService extends IWFBPSModelService<WFWorkItemModel,Long>{
 
 	int created(String workItemID,String workItemName,String workItemDesc,String currentState,

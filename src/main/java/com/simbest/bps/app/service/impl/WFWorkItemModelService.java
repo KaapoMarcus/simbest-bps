@@ -15,6 +15,9 @@ import com.simbest.bps.app.mapper.WFWorkItemModelMapper;
 import com.simbest.bps.app.model.WFWorkItemModel;
 import com.simbest.bps.app.service.IWFWorkItemModelService;
 
+/**
+ * 流程工作项业务操作
+ */
 @Service(value="wFWorkItemModelService")
 public class WFWorkItemModelService extends WFBPSModelService<WFWorkItemModel,Long> implements IWFWorkItemModelService{
 
@@ -33,6 +36,42 @@ public class WFWorkItemModelService extends WFBPSModelService<WFWorkItemModel,Lo
         super.setMapper(mapper);
 	}
 
+    /**
+     *  插入工作项数据
+     *
+     * @param workItemID
+     * @param workItemName
+     * @param workItemDesc
+     * @param currentState
+     * @param participant
+     * @param priority
+     * @param isTimeOut
+     * @param createTime
+     * @param startTime
+     * @param endTime
+     * @param finalTime
+     * @param remindTime
+     * @param actionURL
+     * @param processInstID
+     * @param processInstName
+     * @param activityInstID
+     * @param activityInstName
+     * @param processDefID
+     * @param processDefName
+     * @param processChName
+     * @param activityDefID
+     * @param assistant
+     * @param bizState
+     * @param allowAgent
+     * @param urlType
+     * @param catalogUUID
+     * @param catalogName
+     * @param title
+     * @param receiptId
+     * @param code
+     * @param currentUserCode
+     * @return
+     */
 	@Override
 	public int created(String workItemID, String workItemName,
 			String workItemDesc, String currentState, String participant,
@@ -46,7 +85,6 @@ public class WFWorkItemModelService extends WFBPSModelService<WFWorkItemModel,Lo
 			String urlType, String catalogUUID, String catalogName,
 			String title, String receiptId,
 			String code, String currentUserCode) {
-		// TODO Auto-generated method stub
 		WFWorkItemModel wFWorkItemModel = new WFWorkItemModel();
 		wrapCreateInfo(wFWorkItemModel);
 		wFWorkItemModel.setWorkItemID(Long.parseLong(workItemID));
@@ -81,12 +119,43 @@ public class WFWorkItemModelService extends WFBPSModelService<WFWorkItemModel,Lo
 		wFWorkItemModel.setCode(code);
 		wFWorkItemModel.setEnabled(true);
 		wFWorkItemModel.setRemoved(false);
-		
-		
-		int ret = mapper.create(wFWorkItemModel); 
+		int ret = mapper.create(wFWorkItemModel);
 		return ret;
 	}
 
+    /**
+     * 根据工作项ID更新数据
+     *
+     * @param workItemID
+     * @param workItemName
+     * @param workItemDesc
+     * @param currentState
+     * @param participant
+     * @param priority
+     * @param isTimeOut
+     * @param createTime
+     * @param startTime
+     * @param endTime
+     * @param finalTime
+     * @param remindTime
+     * @param actionURL
+     * @param processInstID
+     * @param processInstName
+     * @param activityInstID
+     * @param activityInstName
+     * @param processDefID
+     * @param processDefName
+     * @param processChName
+     * @param activityDefID
+     * @param assistant
+     * @param bizState
+     * @param allowAgent
+     * @param urlType
+     * @param catalogUUID
+     * @param catalogName
+     * @param currentUserCode
+     * @return
+     */
 	@Override
 	public int updateByWorkItemID(String workItemID, String workItemName,
 			String workItemDesc, String currentState, String participant,
@@ -127,17 +196,14 @@ public class WFWorkItemModelService extends WFBPSModelService<WFWorkItemModel,Lo
 		wFWorkItemModel.setUrlType(urlType);
 		wFWorkItemModel.setCatalogUUID(catalogUUID);
 		wFWorkItemModel.setCatalogName(catalogName);
-		
 		wFWorkItemModel.setEnabled(true);
 		wFWorkItemModel.setRemoved(false);
-		
-		int ret = mapper.updateByWorkItemID(wFWorkItemModel); 
+		int ret = mapper.updateByWorkItemID(wFWorkItemModel);
 		return ret;
 	}
 
 	@Override
 	public WFWorkItemModel getByWorkItemID(Long workItemID) {
-		// TODO Auto-generated method stub
 		return mapper.getByWorkItemID(workItemID);
 	}
 
