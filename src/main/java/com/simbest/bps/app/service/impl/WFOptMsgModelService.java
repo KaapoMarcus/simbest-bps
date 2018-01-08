@@ -21,6 +21,9 @@ import com.simbest.bps.app.model.WFOptMsgModel;
 import com.simbest.bps.app.model.WFWorkItemModel;
 import com.simbest.bps.app.service.IWFOptMsgModelService;
 
+/**
+ * 流程审批意见业务操作
+ */
 @Service(value="wFOptMsgModelService")
 public class WFOptMsgModelService extends WFBPSModelService<WFOptMsgModel,Long> implements IWFOptMsgModelService{
 
@@ -65,9 +68,13 @@ public class WFOptMsgModelService extends WFBPSModelService<WFOptMsgModel,Long> 
 			wFOptMsgModel.setRemoved(false);
 			create(wFOptMsgModel);
 		}
-		
 	}
 
+    /**
+     * 根据流程实例ID、标题更新流程审批信息
+     * @param processInstID
+     * @param title
+     */
 	@Override
 	public void updateTitleByInstID(Long processInstID, String title) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -76,9 +83,12 @@ public class WFOptMsgModelService extends WFBPSModelService<WFOptMsgModel,Long> 
 		mapper.updateTitleByInstID(map);
 	}
 
+    /**
+     * 根据流程实例ID删除流程信息
+     * @param processInstID
+     */
 	@Override
 	public void deleteByInstID(Long processInstID) {
 		mapper.deleteByInstID(processInstID);
-		
 	}
 }

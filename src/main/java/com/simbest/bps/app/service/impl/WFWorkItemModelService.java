@@ -202,16 +202,31 @@ public class WFWorkItemModelService extends WFBPSModelService<WFWorkItemModel,Lo
 		return ret;
 	}
 
+    /**
+     * 根据工作项ID查询工作项信息
+     * @param workItemID   工作项ID
+     * @return
+     */
 	@Override
 	public WFWorkItemModel getByWorkItemID(Long workItemID) {
 		return mapper.getByWorkItemID(workItemID);
 	}
 
+    /**
+     * 根据流程实例ID 删除工作项信息
+     * @param processInstID   流程实例ID
+     * @return
+     */
 	@Override
 	public int deleteByProcessInst(Long processInstID) {
 		return mapper.deleteByProcessInst(processInstID);
 	}
 
+    /**
+     * 根据流程实例ID、标题更新工作项信息
+     * @param processInstID    流程实例ID
+     * @param title            标题
+     */
 	@Override
 	public void updateTitleByInstID(Long processInstID, String title) {
 		Map<String, Object> map = new HashMap<String, Object>();

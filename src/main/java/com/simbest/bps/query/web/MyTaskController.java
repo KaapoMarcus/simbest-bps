@@ -41,7 +41,6 @@ public class MyTaskController {
     /**
      * 查询我的待办
      *
-     * @param uniqueCode
      * @return
      * @throws Exception
      */
@@ -57,11 +56,29 @@ public class MyTaskController {
         response.setData(dataMap);
         return response;
     }
-    
+
+    /**
+     * 查询所有流程信息供维护使用
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/queryManagerFlow", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    @ApiOperation(value = "查询所有流程信息供维护使用", httpMethod = "POST", notes = "查询所有流程信息供维护使用",
+            produces="application/json",consumes="application/application/x-www-form-urlencoded")
+    public JsonResponse queryManagerFlow(int  pageindex,int pagesize,ActBusinessStatus actBusinessStatus) throws Exception {
+        JsonResponse response = new JsonResponse();
+        response.setResponseid(1);
+        PageSupport<ActBusinessStatus> list = statusService.queryManagerFlow(actBusinessStatus,pageindex, pagesize);
+        Map<String, Object> dataMap = wrapQueryResult(list);
+        response.setData(dataMap);
+        return response;
+    }
+
     /**
      * 查询我的待办总数
      *
-     * @param uniqueCode
      * @return
      * @throws Exception
      */
@@ -76,11 +93,12 @@ public class MyTaskController {
 //        response.setData(count);
         return response;
     }
-    
+
+
+
     /**
      * 查询我的申请
      *
-     * @param uniqueCode
      * @return
      * @throws Exception
      */
@@ -100,7 +118,6 @@ public class MyTaskController {
     /**
      * 查询我的草稿
      *
-     * @param uniqueCode
      * @return
      * @throws Exception
      */
@@ -120,7 +137,6 @@ public class MyTaskController {
     /**
      * 查询我的已办
      *
-     * @param uniqueCode
      * @return
      * @throws Exception
      */

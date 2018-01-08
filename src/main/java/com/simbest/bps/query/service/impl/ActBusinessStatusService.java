@@ -64,7 +64,6 @@ public class ActBusinessStatusService extends GenericMapperService<ActBusinessSt
         super.setMapper(mapper);
     }
 
-    
 
 	@Override
 	public int createListener(String processInstID, String processInstName,
@@ -159,9 +158,24 @@ public class ActBusinessStatusService extends GenericMapperService<ActBusinessSt
         return ps;
 	}
 
-	@Override
+    /**
+     * 查询所有流程信息 - 维护使用
+     * @param actBusinessStatus
+     * @param pageindex
+     * @param pagesize
+     * @return
+     */
+    @Override
+    public PageSupport<ActBusinessStatus> queryManagerFlow ( ActBusinessStatus actBusinessStatus, int pageindex, int pagesize ) {
+        List<ActBusinessStatus> actBusinessStatusList = mapper.queryManagerFlow( actBusinessStatus );
+        Integer count = mapper.countManagerFlow( actBusinessStatus );
+        PageSupport pageSupport = new PageSupport(actBusinessStatusList,count,pageindex,pagesize);
+        return pageSupport;
+    }
+
+
+    @Override
 	public ActBusinessStatus getByProcessInst(Long processInstID) {
-		// TODO Auto-generated method stub
 		return mapper.getByProcessInst(processInstID);
 	}
 

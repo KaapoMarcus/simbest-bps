@@ -140,7 +140,35 @@ public class WFProcessInstModelService extends WFBPSModelService<WFProcessInstMo
 		return mapper.getByProcessInst(processInstID);
 	}
 
-	/*流程结束更新结束时间*/
+    /**
+     * 流程结束更新结束时间
+     * @param processInstID
+     * @param processInstName
+     * @param processInstDesc
+     * @param creator
+     * @param owner
+     * @param currentState
+     * @param createTime
+     * @param startTime
+     * @param endTime
+     * @param finalTime
+     * @param remindTime
+     * @param parentProcID
+     * @param parentActID
+     * @param processDefID
+     * @param isTimeOut
+     * @param timeOutNum
+     * @param timeOutNumDesc
+     * @param updateVersion
+     * @param processDefName
+     * @param catalogUUID
+     * @param catalogName
+     * @param title
+     * @param receiptId
+     * @param code
+     * @param currentUserCode
+     * @return
+     */
 	@Override
 	public int updateListenerByProcess(String processInstID,
 			String processInstName, String processInstDesc, String creator,
@@ -159,19 +187,26 @@ public class WFProcessInstModelService extends WFBPSModelService<WFProcessInstMo
 		return update(o);
 	}
 
+    /**
+     * 根据流程实例ID、标题更新流程信息
+     * @param processInstID    流程实例ID
+     * @param title            标题
+     */
 	@Override
 	public void updateTitleByInstID(Long processInstID, String title) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("processInstID", processInstID);
 		map.put("title", title);
 		mapper.updateTitleByInstID(map);
-		
 	}
-	
+
+    /**
+     * 根据流程实例ID删除流程信息
+     * @param processInstID   流程实例ID
+     */
 	@Override
 	public void deleteByInstID(Long processInstID) {
 		mapper.deleteByInstID(processInstID);
-		
 	}
 	
 }
