@@ -91,4 +91,14 @@ public class WFOptMsgModelService extends WFBPSModelService<WFOptMsgModel,Long> 
 	public void deleteByInstID(Long processInstID) {
 		mapper.deleteByInstID(processInstID);
 	}
+
+    /**
+     * 根据流程实例ID和工作项ID 更新审批意见
+     * @param wfOptMsgModel    审批意见对象
+     * @return
+     */
+    @Override
+    public int updateByPInstIDAndWkID ( WFOptMsgModel wfOptMsgModel ) {
+        return mapper.updateByPInstIDAndWkID(wfOptMsgModel);
+    }
 }

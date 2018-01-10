@@ -42,35 +42,33 @@
 	<select id="getAll" parameterType="com.simbest.bps.app.model.WFOptMsgModel" resultMap="WFOptMsgModelResult">
 		SELECT * FROM wf_optmsg_model
 		<where>
-		<if test="id != null">and id = #{id}</if>
-		<if test="createDate != null">and createDate = #{createDate}</if>
-		<if test="updateDate != null">and updateDate = #{updateDate}</if>
-		<if test="createUserCode != null and createUserCode !=''">and createUserCode = #{createUserCode}</if>
-		<if test="createUserId != null">and createUserId = #{createUserId}</if>
-		<if test="createUserName != null and createUserName !=''">and createUserName = #{createUserName}</if>
-		<if test="enabled != null">and enabled = #{enabled}</if>
-		<if test="removed != null">and removed = #{removed}</if>
-		<if test="updateUserCode != null and updateUserCode !=''">and updateUserCode = #{updateUserCode}</if>
-		<if test="updateUserId != null">and updateUserId = #{updateUserId}</if>
-		<if test="updateUserName != null and updateUserName !=''">and updateUserName = #{updateUserName}</if>
-		<if test="title != null and title !=''">and title = #{title}</if>
-		<if test="receiptid != null">and receiptid = #{receiptid}</if>
-		<if test="code != null and code !=''">and code = #{code}</if>
-		
-		<if test="messageid!= null">and messageid= #{messageid }</if>
-		<if test="producer!= null and producer!=''">and producer= #{producer }</if>
-		<if test="receiver!= null and receiver!=''">and receiver= #{receiver }</if>
-		<if test="operationtype!= null and operationtype!=''">and operationtype= #{operationtype }</if>
-		<if test="correlationtype!= null and correlationtype!=''">and correlationtype= #{correlationtype }</if>
-		<if test="correlationid!= null">and correlationid= #{correlationid }</if>
-		<if test="content!= null and content!=''">and content= #{content }</if>
-		<if test="createtime!= null">and createtime= #{createtime }</if>
-		<if test="processdefid!= null">and processdefid= #{processdefid }</if>
-		<if test="processinstid!= null">and processinstid= #{processinstid }</if>
-		<if test="activityinstid!= null">and activityinstid= #{activityinstid }</if>
-		<if test="workitemid!= null">and workitemid= #{workitemid }</if>
-		<if test="tenant_id!= null and tenant_id!=''">and tenant_id= #{tenant_id }</if>
-		
+            <if test="id != null">and id = #{id}</if>
+            <if test="createDate != null">and createDate = #{createDate}</if>
+            <if test="updateDate != null">and updateDate = #{updateDate}</if>
+            <if test="createUserCode != null and createUserCode !=''">and createUserCode = #{createUserCode}</if>
+            <if test="createUserId != null">and createUserId = #{createUserId}</if>
+            <if test="createUserName != null and createUserName !=''">and createUserName = #{createUserName}</if>
+            <if test="enabled != null">and enabled = #{enabled}</if>
+            <if test="removed != null">and removed = #{removed}</if>
+            <if test="updateUserCode != null and updateUserCode !=''">and updateUserCode = #{updateUserCode}</if>
+            <if test="updateUserId != null">and updateUserId = #{updateUserId}</if>
+            <if test="updateUserName != null and updateUserName !=''">and updateUserName = #{updateUserName}</if>
+            <if test="title != null and title !=''">and title = #{title}</if>
+            <if test="receiptid != null">and receiptid = #{receiptid}</if>
+            <if test="code != null and code !=''">and code = #{code}</if>
+            <if test="messageid!= null">and messageid= #{messageid }</if>
+            <if test="producer!= null and producer!=''">and producer= #{producer }</if>
+            <if test="receiver!= null and receiver!=''">and receiver= #{receiver }</if>
+            <if test="operationtype!= null and operationtype!=''">and operationtype= #{operationtype }</if>
+            <if test="correlationtype!= null and correlationtype!=''">and correlationtype= #{correlationtype }</if>
+            <if test="correlationid!= null">and correlationid= #{correlationid }</if>
+            <if test="content!= null and content!=''">and content= #{content }</if>
+            <if test="createtime!= null">and createtime= #{createtime }</if>
+            <if test="processdefid!= null">and processdefid= #{processdefid }</if>
+            <if test="processinstid!= null">and processinstid= #{processinstid }</if>
+            <if test="activityinstid!= null">and activityinstid= #{activityinstid }</if>
+            <if test="workitemid!= null">and workitemid= #{workitemid }</if>
+            <if test="tenant_id!= null and tenant_id!=''">and tenant_id= #{tenant_id }</if>
 		</where>
         <if test="orderByClause != null and orderByClause !=''" >
             order by ${orderByClause}
@@ -144,7 +142,6 @@
 			<if test="title != null and title != ''">,title = #{title}</if>
 			<if test="receiptid != null">,receiptid = #{receiptid}</if>
 			<if test="code != null and code != ''">,code = #{code}</if>
-			
 			<if test="messageid!= null">, messageid= #{messageid }</if>
 			<if test="producer!= null and producer!=''">, producer= #{producer }</if>
 			<if test="receiver!= null and receiver!=''">, receiver= #{receiver }</if>
@@ -159,15 +156,38 @@
 			<if test="workitemid!= null">, workitemid= #{workitemid }</if>
 			<if test="tenant_id!= null and tenant_id!=''">, tenant_id= #{tenant_id }</if>
 		where id=#{id}
-	</update>  
+	</update>
 
-	
-    
-	<update id="delete" parameterType="Long" flushCache="true" statementType="PREPARED" timeout="20">
+    <update id="updateByPInstIDAndWkID" parameterType="com.simbest.bps.app.model.WFOptMsgModel" flushCache="true" statementType="PREPARED" timeout="20" >
+        update wf_optmsg_model set id = #{id}
+        <if test="createDate != null">,createDate = #{createDate}</if>
+        <if test="updateDate != null">,updateDate = #{updateDate}</if>
+        <if test="createUserCode != null and createUserCode != ''">,createUserCode = #{createUserCode}</if>
+        <if test="createUserId != null">,createUserId = #{createUserId}</if>
+        <if test="createUserName != null and createUserName != ''">,createUserName = #{createUserName}</if>
+        <if test="enabled != null">,enabled = #{enabled}</if>
+        <if test="removed != null">,removed = #{removed}</if>
+        <if test="updateUserCode != null and updateUserCode != ''">,updateUserCode = #{updateUserCode}</if>
+        <if test="updateUserId != null">,updateUserId = #{updateUserId}</if>
+        <if test="updateUserName != null and updateUserName != ''">,updateUserName = #{updateUserName}</if>
+        <if test="title != null and title != ''">,title = #{title}</if>
+        <if test="code != null and code != ''">,code = #{code}</if>
+        <if test="messageid!= null">, messageid= #{messageid }</if>
+        <if test="producer!= null and producer!=''">, producer= #{producer }</if>
+        <if test="receiver!= null and receiver!=''">, receiver= #{receiver }</if>
+        <if test="operationtype!= null and operationtype!=''">, operationtype= #{operationtype }</if>
+        <if test="correlationtype!= null and correlationtype!=''">, correlationtype= #{correlationtype }</if>
+        <if test="correlationid!= null">, correlationid= #{correlationid }</if>
+        <if test="content!= null and content!=''">, content= #{content }</if>
+        <if test="createtime!= null">, createtime= #{createtime }</if>
+        where processinstid = #{processinstid} AND workitemid= #{workitemid}
+    </update>
+
+    <update id="delete" parameterType="Long" flushCache="true" statementType="PREPARED" timeout="20">
 		update wf_optmsg_model set
 				enabled=0,
 				removed=1
-		where id=#{id}
+		where id = #{id}
 	</update>
 	
 	<update id="updateTitleByInstID" parameterType="java.util.HashMap" flushCache="true" statementType="PREPARED" timeout="20">
