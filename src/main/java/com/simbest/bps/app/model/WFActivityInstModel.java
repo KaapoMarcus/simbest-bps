@@ -51,6 +51,109 @@ public class WFActivityInstModel extends WFBPSModel<WFActivityInstModel>{
 	private String rollbackFlag  ;//  回退标志 正常（0）、回退（1） 
 //	private String catalogUUID 	 ;//  业务目录编号
 //	private String catalogName ;//  业务目录名称
-	
-	
+
+
+    public Long getId ( ) {
+        return id;
+    }
+
+    public void setId ( Long id ) {
+        this.id = id;
+    }
+
+    public Long getActivityInstID ( ) {
+        return activityInstID;
+    }
+
+    public void setActivityInstID ( Long activityInstID ) {
+        this.activityInstID = activityInstID;
+    }
+
+    public String getActivityInstName ( ) {
+        return activityInstName;
+    }
+
+    public void setActivityInstName ( String activityInstName ) {
+        this.activityInstName = activityInstName;
+    }
+
+    public String getActivityInstDesc ( ) {
+        return activityInstDesc;
+    }
+
+    public void setActivityInstDesc ( String activityInstDesc ) {
+        this.activityInstDesc = activityInstDesc;
+    }
+
+    public String getActivityType ( ) {
+        return activityType;
+    }
+
+    public void setActivityType ( String activityType ) {
+        this.activityType = activityType;
+    }
+
+    public Integer getCurrentState ( ) {
+        return currentState;
+    }
+
+    public void setCurrentState ( Integer currentState ) {
+        this.currentState = currentState;
+    }
+
+    public Date getCreateTime ( ) {
+        return createTime;
+    }
+
+    public void setCreateTime ( Date createTime ) {
+        this.createTime = createTime;
+    }
+
+    public Date getStartTime ( ) {
+        return startTime;
+    }
+
+    public void setStartTime ( Date startTime ) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime ( ) {
+        return endTime;
+    }
+
+    public void setEndTime ( Date endTime ) {
+        this.endTime = endTime;
+    }
+
+    public Date getFinalTime ( ) {
+        return finalTime;
+    }
+
+    public void setFinalTime ( Date finalTime ) {
+        this.finalTime = finalTime;
+    }
+
+    public String getActivityDefID ( ) {
+        return activityDefID;
+    }
+
+    public void setActivityDefID ( String activityDefID ) {
+        this.activityDefID = activityDefID;
+    }
+
+    public Long getProcessInstID ( ) {
+        return processInstID;
+    }
+
+    public void setProcessInstID ( Long processInstID ) {
+        this.processInstID = processInstID;
+    }
+
+    public String getRollbackFlag ( ) {
+        return rollbackFlag;
+    }
+
+    public void setRollbackFlag ( String rollbackFlag ) {
+        this.rollbackFlag = rollbackFlag;
+    }
 }

@@ -12,6 +12,9 @@ import com.simbest.bps.app.mapper.WFActivityInstModelMapper;
 import com.simbest.bps.app.model.WFActivityInstModel;
 import com.simbest.bps.app.service.IWFActivityInstModelService;
 
+/**
+ * 流程活动实例  业务操作
+ */
 @Service(value="wFActivityInstModelService")
 public class WFActivityInstModelService  extends LogicService<WFActivityInstModel,Long> implements IWFActivityInstModelService{
 
