@@ -113,5 +113,4 @@ public interface IWFWorkItemModelService extends IWFBPSModelService<WFWorkItemMo
      * @param title             标题
      */
 	void updateTitleByInstID(Long processInstID, String title);
-
 }
