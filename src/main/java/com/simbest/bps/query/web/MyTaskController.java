@@ -152,8 +152,12 @@ public class MyTaskController {
         response.setData(dataMap);
         return response;
     }
-    
-    
+
+    /**
+     * 分页使用
+     * @param list 数据对象
+     * @return
+     */
     protected Map<String, Object> wrapQueryResult(List<?> list) {
         Map<String, Object> dataMap = Maps.newHashMap();
         PageInfo info = new PageInfo(list);
@@ -172,6 +176,11 @@ public class MyTaskController {
         return dataMap;
     }
 
+    /**
+     * 分页使用
+     * @param ps   分页数据对象
+     * @return
+     */
     protected Map<String, Object> wrapQueryResult(PageSupport<?> ps) {
         Map<String, Object> dataMap = Maps.newHashMap();
         if (config.getValue("js.framework").equals("zjs")) {
