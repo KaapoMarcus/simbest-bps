@@ -6,7 +6,7 @@ package com.simbest.bps.exceptions;
 import com.simbest.cores.exceptions.AppException;
 
 /**
- *
+ * 异常操作
  */
 public class NotFoundBusinessException extends AppException{
 
