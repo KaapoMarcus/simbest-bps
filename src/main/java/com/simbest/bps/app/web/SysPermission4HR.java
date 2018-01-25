@@ -136,15 +136,12 @@ public class SysPermission4HR {
 	 */
 	private boolean validate(SysUser user, String password) {
 		boolean flag = false;
-		
 		/*数据库用户信息*/
 		String salt = user.getSalt();
 		String pass = user.getPassword();
-		
 		/*shiro配置信息*/
 		String hashAlgorithmName = credentialsMatcher.getHashAlgorithmName();
 		Integer hashIterations = credentialsMatcher.getHashIterations();
-		
 		/*前端加密密码*/
 		String md5pass = Digests.encryptMD5(password);
 		byte[] salta = Encodes.decodeHex(salt);
