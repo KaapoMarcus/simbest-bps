@@ -50,7 +50,7 @@ public class SysPermission4HR {
 	
 	/**
 	 * 获取用户具有的权限列表
-	 * @param userID
+	 * @param userCode
 	 * @return  返回指定用户所具有的权限列表，包含所有BPS角色（比如默认是6个）中的0个、1个或多个
 	 */
 	@RequestMapping(value = "/getPermissionByUserId", method = RequestMethod.POST)
@@ -62,7 +62,7 @@ public class SysPermission4HR {
 		List<SysRole> list = (List<SysRole>) sysRoleAdvanceService.getByUser(sysUser.getId());
 		if(list!=null){
 			for(SysRole s: list){
-				if((s!=null && s.getType()!=null) && s.getType().equals("bps角色")){
+				if((s!=null && s.getType()!=null) && "bps角色".equals( s.getType( ) ) ){
 					Map<String, Object> data = Maps.newHashMap();
 					data.put("id", s.getId());
 					data.put("name", s.getName());
@@ -92,7 +92,7 @@ public class SysPermission4HR {
 		Map<String, Object> data = Maps.newHashMap();
 		if(list!=null){
 			for(SysRole s: list){
-				if((s!=null && s.getType()!=null) && (s.getType().equals("bps角色") && s.getName().equals(permType))){
+				if((s!=null && s.getType()!=null) && ( "bps角色".equals( s.getType( ) ) && s.getName().equals(permType))){
 					data.put("name", s.getName());
 				}
 			}
