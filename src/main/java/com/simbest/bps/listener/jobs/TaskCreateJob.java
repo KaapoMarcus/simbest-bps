@@ -5,8 +5,6 @@ package com.simbest.bps.listener.jobs;
 
 import com.simbest.bps.query.model.ActBusinessStatus;
 
-
-
 /**
  * 用途：用户创建时执行的任务
  */

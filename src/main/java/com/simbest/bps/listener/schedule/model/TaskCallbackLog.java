@@ -10,7 +10,6 @@ import java.util.Date;
  * 业务代办回调日志记录
  * 
  * @author lishuyi
- *
  */
 @Entity
 @Table(name = "act_task_callback_log")

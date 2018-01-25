@@ -50,8 +50,9 @@ public class UserTaskSubmitor {
         Boolean callbackResult = true;
         TaskCreateJob job = null;
         String callbackError = null;
-        if (businessStatus == null)
-            throw new NotFoundBusinessException();
+        if (businessStatus == null) {
+            throw new NotFoundBusinessException( );
+        }
         try {
             job = (TaskCreateJob) context.getBeanByClass(TaskCreateJob.class);
             job.execution(businessStatus, uniqueCode);
@@ -83,8 +84,9 @@ public class UserTaskSubmitor {
     }
 
     public void createGroupTaskCallback(ActBusinessStatus businessStatus, Integer groupId) {
-        if (businessStatus == null)
-            throw new NotFoundBusinessException();
+        if (businessStatus == null) {
+            throw new NotFoundBusinessException( );
+        }
         List<String> uniqueCodes = groupAdvanceService.getGroupUser(groupId);
         for (String user : uniqueCodes) {
             createUserTaskCallback(businessStatus, user);
@@ -96,8 +98,9 @@ public class UserTaskSubmitor {
         Boolean callbackResult = true;
         TaskCompletedJob job = null;
         String callbackError = null;
-        if (businessStatus == null)
-            throw new NotFoundBusinessException();
+        if (businessStatus == null) {
+            throw new NotFoundBusinessException( );
+        }
         try {
             job = (TaskCompletedJob) context.getBeanByClass(TaskCompletedJob.class);
             job.execution(businessStatus, uniqueCode);
@@ -129,8 +132,9 @@ public class UserTaskSubmitor {
     }
 
     public void removeGroupTaskCallback(ActBusinessStatus businessStatus, Integer groupId) {
-        if (businessStatus == null)
-            throw new NotFoundBusinessException();
+        if (businessStatus == null) {
+            throw new NotFoundBusinessException( );
+        }
         List<String> uniqueCodes = groupAdvanceService.getGroupUser(groupId);
         for (String user : uniqueCodes) {
             removeUserTaskCallback(businessStatus, user);
