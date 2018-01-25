@@ -45,6 +45,11 @@ public class UserTaskSubmitor {
     @Qualifier("taskCallbackLogService")
     private IGenericService<TaskCallbackLog, Long> taskCallbackLogService;
 
+    /**
+     * 待办生成  工作项创建后执行
+     * @param businessStatus    业务状态对象
+     * @param uniqueCode        人员唯一ID
+     */
     public void createUserTaskCallback(ActBusinessStatus businessStatus, String uniqueCode) {
         Date callbackStartDate = DateUtil.getCurrent();
         Boolean callbackResult = true;
@@ -83,6 +88,11 @@ public class UserTaskSubmitor {
         }
     }
 
+    /**
+     * 待办生成  工作项创建后执行
+     * @param businessStatus    业务状态对象
+     * @param groupId           组ID
+     */
     public void createGroupTaskCallback(ActBusinessStatus businessStatus, Integer groupId) {
         if (businessStatus == null) {
             throw new NotFoundBusinessException( );
@@ -93,6 +103,11 @@ public class UserTaskSubmitor {
         }
     }
 
+    /**
+     * 待办完成  工作项完成后执行
+     * @param businessStatus    业务状态对象
+     * @param uniqueCode        人员唯一ID
+     */
     public void removeUserTaskCallback(ActBusinessStatus businessStatus, String uniqueCode) {
         Date callbackStartDate = DateUtil.getCurrent();
         Boolean callbackResult = true;
@@ -131,6 +146,11 @@ public class UserTaskSubmitor {
         }
     }
 
+    /**
+     * 待办完成  工作项完成后执行
+     * @param businessStatus    业务状态对象
+     * @param groupId           组ID
+     */
     public void removeGroupTaskCallback(ActBusinessStatus businessStatus, Integer groupId) {
         if (businessStatus == null) {
             throw new NotFoundBusinessException( );
