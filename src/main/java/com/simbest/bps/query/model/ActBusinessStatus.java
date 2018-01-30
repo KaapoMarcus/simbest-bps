@@ -116,6 +116,27 @@ public class ActBusinessStatus extends GenericModel<ActBusinessStatus> {
     
     @Transient
     private String uniqueCode; //查询待办已办参数
+
+    @Transient
+    private String PM_TYPE;  //绩效类型 （pmy、pmq、pmm）
+
+    @Transient
+    private String PM_MONTH; //绩效周期-月份
+
+    @Transient
+    private String PM_QUARTER; //绩效周期-季度
+
+    @Transient
+    private String PM_YEAR;   //绩效周期-年份
+
+    @Transient
+    private Long snapshot_id;   //快照ID
+
+    @Transient
+    private String postName;     //流程起草人当前身份
+
+    @Transient
+    private String pmState;    //查询状态(未创建、签订、评定、已办结) 供业务使用
     
 
     public Long getId() {
@@ -452,5 +473,59 @@ public class ActBusinessStatus extends GenericModel<ActBusinessStatus> {
 		this.uniqueCode = uniqueCode;
 	}
 
-    
+    public String getPM_TYPE ( ) {
+        return PM_TYPE;
+    }
+
+    public void setPM_TYPE ( String PM_TYPE ) {
+        this.PM_TYPE = PM_TYPE;
+    }
+
+    public String getPM_MONTH ( ) {
+        return PM_MONTH;
+    }
+
+    public void setPM_MONTH ( String PM_MONTH ) {
+        this.PM_MONTH = PM_MONTH;
+    }
+
+    public String getPM_QUARTER ( ) {
+        return PM_QUARTER;
+    }
+
+    public void setPM_QUARTER ( String PM_QUARTER ) {
+        this.PM_QUARTER = PM_QUARTER;
+    }
+
+    public String getPM_YEAR ( ) {
+        return PM_YEAR;
+    }
+
+    public void setPM_YEAR ( String PM_YEAR ) {
+        this.PM_YEAR = PM_YEAR;
+    }
+
+    public Long getSnapshot_id ( ) {
+        return snapshot_id;
+    }
+
+    public void setSnapshot_id ( Long snapshot_id ) {
+        this.snapshot_id = snapshot_id;
+    }
+
+    public String getPostName ( ) {
+        return postName;
+    }
+
+    public void setPostName ( String postName ) {
+        this.postName = postName;
+    }
+
+    public String getPmState ( ) {
+        return pmState;
+    }
+
+    public void setPmState ( String pmState ) {
+        this.pmState = pmState;
+    }
 }

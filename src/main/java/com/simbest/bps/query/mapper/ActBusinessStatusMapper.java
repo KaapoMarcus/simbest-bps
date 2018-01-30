@@ -57,4 +57,12 @@ public interface ActBusinessStatusMapper extends IGenericMapper<ActBusinessStatu
      */
     List<ActBusinessStatus> queryManagerFlow(ActBusinessStatus actBusinessStatus);
     Integer countManagerFlow(ActBusinessStatus actBusinessStatus);
+
+    /**
+     * 部门进度查询
+     * @param actBusinessStatus
+     * @return
+     */
+    List<ActBusinessStatus> queryDeptProcess(ActBusinessStatus actBusinessStatus);
+    Integer queryDeptProcessCount(ActBusinessStatus actBusinessStatus);
 }
