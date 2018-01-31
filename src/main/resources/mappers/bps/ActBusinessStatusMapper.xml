@@ -50,6 +50,7 @@
         <result column="PM_YEAR" property="PM_YEAR"/>
         <result column="snapshot_id" property="snapshot_id"/>
         <result column="postName" property="postName"/>
+        <result column="pmState" property="pmState"/>
     </resultMap>
 
     <select id="getById" parameterType="Long" resultMap="ActBusinessStatusResult">
@@ -264,44 +265,73 @@
 
     <!--部门进度查询-->
     <select id="queryDeptProcess" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
-        SELECT DISTINCT act_business_status.*, m_ha_pm_instance.PM_TYPE,m_ha_pm_instance.PM_YEAR,m_ha_pm_instance.PM_QUARTER,m_ha_pm_instance.PM_MONTH,user_snapshot.postName, wf_workitem_model.workItemID,
-                wf_workitem_model.activityDefID, wf_workitem_model.activityInstName, wf_workitem_model.participant, wf_workitem_model.assistant, wf_workitem_model.startTime AS workItemStartTime
-        FROM act_business_status,wf_workitem_model,m_ha_pm_instance,user_snapshot
-        WHERE act_business_status.businessKey = m_ha_pm_instance.id
-            AND act_business_status.processInstID = wf_workitem_model.processInstID
-            AND  m_ha_pm_instance.snapshot_id = user_snapshot.id
+        SELECT DISTINCT act_business_status.*, wf_workitem.workItemID, wf_workitem.activityInstName, m_ha_pm_instance.assessor_name,user_snapshot.postName
+        FROM act_business_status
+            LEFT JOIN (
+            SELECT *
+            FROM wf_workitem_model A
+            WHERE workItemID = (
+            SELECT max(workItemID)
+            FROM wf_workitem_model B
+            WHERE A.processInstID = B.processInstID
+            )
+            ) wf_workitem ON wf_workitem.processInstID = act_business_status.processInstID,
+            wf_workitem_model,m_ha_pm_instance,user_snapshot
+            WHERE act_business_status.processInstID = wf_workitem_model.processInstID
+            AND act_business_status.businessKey = m_ha_pm_instance.id
+            AND m_ha_pm_instance.snapshot_id = user_snapshot.id
             AND act_business_status.enabled = 1
-            AND m_ha_pm_instance.enabled = 1
+            AND wf_workitem_model.enabled = 1
             <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
             <if test="createUserName != null and createUserName !=''"> AND act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
             <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
             <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
             <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
             <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
-            <if test="pmState = '00'">OR (wf_workitem_model.activityDefID LIKE concat('%', 'ms.', '%') AND wf_workitem_model.activityDefID != 'ms.confirm') OR (wf_workitem_model.activityDefID LIKE concat('%', 'ms.', '%') AND wf_workitem_model.activityDefID != 'ms.confirm') OR (wf_workitem_model.activityDefID = 'ma.confirm')</if>
-            <if test="pmState = '02'">AND wf_workitem_model.activityDefID LIKE concat('%', 'ms.', '%') AND wf_workitem_model.activityDefID != 'ms.confirm'</if> <!--签订-->
-            <if test="pmState = '03'">AND wf_workitem_model.activityDefID LIKE concat('%', 'ma.', '%') AND wf_workitem_model.activityDefID != 'ma.confirm'</if><!-- 评定 -->
-            <if test="pmState = '04'">AND wf_workitem_model.activityDefID = 'ma.confirm'</if><!-- 已办结 -->
+            <if test='pmState != null and pmState == "00"'>
+                AND (
+                    act_business_status.processDefName ='com.npmcm.flow.month_sign' AND wf_workitem_model.activityDefID != 'ms.confirm'
+                    OR
+                    act_business_status.processDefName ='com.npmcm.flow.month_assess' AND wf_workitem_model.activityDefID != 'ma.confirm'
+                    OR
+                    wf_workitem_model.activityDefID = 'ma.confirm'
+                )
+            </if>
+            <if test='pmState != null and pmState == "02"'>AND act_business_status.processDefName ='com.npmcm.flow.month_sign' AND wf_workitem_model.activityDefID != 'ms.confirm'</if> <!--签订-->
+            <if test='pmState != null and pmState == "03"'>AND act_business_status.processDefName ='com.npmcm.flow.month_assess' AND wf_workitem_model.activityDefID != 'ma.confirm'</if><!-- 评定 -->
+            <if test='pmState != null and pmState == "04"'>AND wf_workitem_model.activityDefID = 'ma.confirm'</if><!-- 已办结 -->
         ORDER BY act_business_status.updateTime DESC
     </select>
 
     <select id="queryDeptProcessCount" parameterType="ActBusinessStatus"  resultType="Integer">
         SELECT count(1)
-        FROM act_business_status,wf_workitem_model,m_ha_pm_instance,user_snapshot
-        WHERE act_business_status.businessKey = m_ha_pm_instance.id
-            AND act_business_status.processInstID = wf_workitem_model.processInstID
-            AND  m_ha_pm_instance.snapshot_id = user_snapshot.id
+        FROM act_business_status
+            LEFT JOIN (
+            SELECT *
+            FROM wf_workitem_model A
+            WHERE workItemID = (
+            SELECT max(workItemID)
+            FROM wf_workitem_model B
+            WHERE A.processInstID = B.processInstID
+            )
+            ) wf_workitem ON wf_workitem.processInstID = act_business_status.processInstID,
+            wf_workitem_model,m_ha_pm_instance,user_snapshot
+            WHERE act_business_status.processInstID = wf_workitem_model.processInstID
+            AND act_business_status.businessKey = m_ha_pm_instance.id
+            AND m_ha_pm_instance.snapshot_id = user_snapshot.id
             AND act_business_status.enabled = 1
-            AND m_ha_pm_instance.enabled = 1
-            <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
-            <if test="createUserName != null and createUserName !=''"> AND act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
-            <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
-            <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
-            <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
-            <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
-            <if test="pmState = '00'">OR (wf_workitem_model.activityDefID LIKE concat('%', 'ms.', '%') AND wf_workitem_model.activityDefID != 'ms.confirm') OR (wf_workitem_model.activityDefID LIKE concat('%', 'ms.', '%') AND wf_workitem_model.activityDefID != 'ms.confirm') OR (wf_workitem_model.activityDefID = 'ma.confirm')</if>
-            <if test="pmState = '02'">AND wf_workitem_model.activityDefID LIKE concat('%', 'ms.', '%') AND wf_workitem_model.activityDefID != 'ms.confirm'</if> <!--签订-->
-            <if test="pmState = '03'">AND wf_workitem_model.activityDefID LIKE concat('%', 'ma.', '%') AND wf_workitem_model.activityDefID != 'ma.confirm'</if><!-- 评定 -->
-            <if test="pmState = '04'">AND wf_workitem_model.activityDefID = 'ma.confirm'</if><!-- 已办结 -->
+            AND wf_workitem_model.enabled = 1
+            <if test='pmState != null and pmState == "00"'>
+                AND (
+                act_business_status.processDefName ='com.npmcm.flow.month_sign' AND wf_workitem_model.activityDefID != 'ms.confirm'
+                OR
+                act_business_status.processDefName ='com.npmcm.flow.month_assess' AND wf_workitem_model.activityDefID != 'ma.confirm'
+                OR
+                wf_workitem_model.activityDefID = 'ma.confirm'
+                )
+            </if>
+            <if test='pmState != null and pmState == "02"'>AND act_business_status.processDefName ='com.npmcm.flow.month_sign' AND wf_workitem_model.activityDefID != 'ms.confirm'</if> <!--签订-->
+            <if test='pmState != null and pmState == "03"'>AND act_business_status.processDefName ='com.npmcm.flow.month_assess' AND wf_workitem_model.activityDefID != 'ma.confirm'</if><!-- 评定 -->
+            <if test='pmState != null and pmState == "04"'>AND wf_workitem_model.activityDefID = 'ma.confirm'</if><!-- 已办结 -->
     </select>
 </mapper>
