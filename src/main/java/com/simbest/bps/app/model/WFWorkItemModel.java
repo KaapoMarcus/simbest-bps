@@ -69,6 +69,8 @@ public class WFWorkItemModel  extends WFBPSModel<WFWorkItemModel>{
 //	private Long rootProcInstID;//根流程实例ID 根流程即顶层的父流程。
 	private String catalogUUID;//业务目录编号 
 	private String catalogName;//业务目录名称
+    private String processStateFlag;  //流程状态标志，供查询使用（01:签订过程状态，不包括签订确认环节,02:签订确认环节状态;03:评定过程状态,不包括评定确认环节状态;04:评定确认环节状态）
+
 	
 	@Transient
 	private String partiname;//参与者  用来显示所有工作项参与者
@@ -258,6 +260,11 @@ public class WFWorkItemModel  extends WFBPSModel<WFWorkItemModel>{
 		this.nextactivity = nextactivity;
 	}
 
-	
-	
+    public String getProcessStateFlag ( ) {
+        return processStateFlag;
+    }
+
+    public void setProcessStateFlag ( String processStateFlag ) {
+        this.processStateFlag = processStateFlag;
+    }
 }

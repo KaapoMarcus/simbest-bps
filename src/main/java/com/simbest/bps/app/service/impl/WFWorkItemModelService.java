@@ -119,6 +119,22 @@ public class WFWorkItemModelService extends WFBPSModelService<WFWorkItemModel,Lo
 		wFWorkItemModel.setCode(code);
 		wFWorkItemModel.setEnabled(true);
 		wFWorkItemModel.setRemoved(false);
+		if ( "com.npmcm.flow.month_sign".equals( processDefName ) || "com.npmcm.flow.year_sign".equals( processDefName ) ||
+             "com.npmcm.flow.quarter_sign".equals( processDefName ) || "com.npmcm.flow.tube_office_month_sign".equals( processDefName )){    //签订
+            wFWorkItemModel.setProcessStateFlag("01");
+        }
+        if ( "ms.confirm".equals( processDefName ) || "qs.confirm".equals( processDefName ) ||
+             "ys.confirm".equals( processDefName ) || "tube.confirm".equals( processDefName )){    //签订确认
+            wFWorkItemModel.setProcessStateFlag("02");
+        }
+        if ( "com.npmcm.flow.month_assess".equals( processDefName ) || "com.npmcm.flow.quarter_assess".equals( processDefName ) ||
+             "com.npmcm.flow.year_assess".equals( processDefName )){  //评定
+            wFWorkItemModel.setProcessStateFlag("03");
+        }
+        if ( "ma.confirm".equals( processDefName ) || "qa.confirm".equals( processDefName ) ||
+             "ya.confirm".equals( processDefName )){  //评定确认
+            wFWorkItemModel.setProcessStateFlag("04");
+        }
 		int ret = mapper.create(wFWorkItemModel);
 		return ret;
 	}

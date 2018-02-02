@@ -137,6 +137,9 @@ public class ActBusinessStatus extends GenericModel<ActBusinessStatus> {
 
     @Transient
     private String pmState;    //查询状态(未创建、签订、评定、已办结) 供业务使用
+
+    @Transient
+    private String pmStateFlag;
     
 
     public Long getId() {
@@ -527,5 +530,13 @@ public class ActBusinessStatus extends GenericModel<ActBusinessStatus> {
 
     public void setPmState ( String pmState ) {
         this.pmState = pmState;
+    }
+
+    public String getPmStateFlag ( ) {
+        return pmStateFlag;
+    }
+
+    public void setPmStateFlag ( String pmStateFlag ) {
+        this.pmStateFlag = pmStateFlag;
     }
 }

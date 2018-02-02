@@ -288,18 +288,12 @@
             <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
             <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
             <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
-            <if test='pmState != null and pmState == "00"'>
-                AND (
-                    act_business_status.processDefName ='com.npmcm.flow.month_sign' AND wf_workitem_model.activityDefID != 'ms.confirm'
-                    OR
-                    act_business_status.processDefName ='com.npmcm.flow.month_assess' AND wf_workitem_model.activityDefID != 'ma.confirm'
-                    OR
-                    wf_workitem_model.activityDefID = 'ma.confirm'
-                )
+            <if test='pmStateFlag != null and pmStateFlag == "00"'>
+                AND wf_workitem_model.processStateFlag in ('01','03','04')
             </if>
-            <if test='pmState != null and pmState == "02"'>AND act_business_status.processDefName ='com.npmcm.flow.month_sign' AND wf_workitem_model.activityDefID != 'ms.confirm'</if> <!--签订-->
-            <if test='pmState != null and pmState == "03"'>AND act_business_status.processDefName ='com.npmcm.flow.month_assess' AND wf_workitem_model.activityDefID != 'ma.confirm'</if><!-- 评定 -->
-            <if test='pmState != null and pmState == "04"'>AND wf_workitem_model.activityDefID = 'ma.confirm'</if><!-- 已办结 -->
+            <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
+            <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
+            <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
         ORDER BY act_business_status.updateTime DESC
     </select>
 
@@ -321,17 +315,11 @@
             AND m_ha_pm_instance.snapshot_id = user_snapshot.id
             AND act_business_status.enabled = 1
             AND wf_workitem_model.enabled = 1
-            <if test='pmState != null and pmState == "00"'>
-                AND (
-                act_business_status.processDefName ='com.npmcm.flow.month_sign' AND wf_workitem_model.activityDefID != 'ms.confirm'
-                OR
-                act_business_status.processDefName ='com.npmcm.flow.month_assess' AND wf_workitem_model.activityDefID != 'ma.confirm'
-                OR
-                wf_workitem_model.activityDefID = 'ma.confirm'
-                )
+            <if test='pmStateFlag != null and pmStateFlag == "00"'>
+                AND wf_workitem_model.processStateFlag in ('01','03','04')
             </if>
-            <if test='pmState != null and pmState == "02"'>AND act_business_status.processDefName ='com.npmcm.flow.month_sign' AND wf_workitem_model.activityDefID != 'ms.confirm'</if> <!--签订-->
-            <if test='pmState != null and pmState == "03"'>AND act_business_status.processDefName ='com.npmcm.flow.month_assess' AND wf_workitem_model.activityDefID != 'ma.confirm'</if><!-- 评定 -->
-            <if test='pmState != null and pmState == "04"'>AND wf_workitem_model.activityDefID = 'ma.confirm'</if><!-- 已办结 -->
+            <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
+            <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
+            <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
     </select>
 </mapper>
