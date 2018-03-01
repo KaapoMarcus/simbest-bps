@@ -11,12 +11,14 @@ import org.springframework.stereotype.Component;
 
 /**
  * 自定义BPS流程回退操作
+ *
+ * @author
  */
 @Component
 public class CustomWFBackActivityManager {
 
 	@Autowired
-	private IWFBackActivityManager WFBackActivityManager;
+	private IWFBackActivityManager wFBackActivityManager;
 
     @Autowired
     private IWFWorkItemModelService wFWorkItemModelService;
@@ -72,7 +74,7 @@ public class CustomWFBackActivityManager {
                     wfWorkItemModel.setCurrentState( 10 );
                     wFWorkItemModelService.update(wfWorkItemModel);
                     destActDefID = wfWorkItemModel.getActivityDefID();
-                    WFBackActivityManager.backActivity( currentActInstId,destActDefID,CustomWFBackActivityManager.ONE_STEP );
+                    wFBackActivityManager.backActivity( currentActInstId,destActDefID,CustomWFBackActivityManager.ONE_STEP );
                     //当前工作项
                     WFWorkItemModel wfWorkItemModel_tmp = wFWorkItemModelService.getByWorkItemID( workItemID );
                     wfWorkItemModel_tmp.setEnabled( false );

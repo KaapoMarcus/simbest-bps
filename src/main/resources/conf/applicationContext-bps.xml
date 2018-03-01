@@ -9,8 +9,7 @@
 
 	
 
-    <bean id="bpsapi" class="com.simbest.bps.app.api.BPSAPI">
-	</bean>
+    <bean id="bpsapi" class="com.simbest.bps.app.api.BPSAPI"></bean>
 
 	<!-- 接口 -->
 	<bean id="WFProcessInstManager" factory-bean="bpsapi"
@@ -23,6 +22,8 @@
 		factory-method="getWFWorklistQueryManager" />
 	<bean id="WFBackActivityManager" factory-bean="bpsapi"
 		factory-method="getWFBackActivityManager" />
+    <bean id="WFDefinitionQueryManager" factory-bean="bpsapi"
+          factory-method="getWFDefinitionQueryManager" />
 		
 	<bean id="taskCallbackRetryService" class="com.simbest.cores.service.impl.GenericSQLService">
         <constructor-arg index="0" value="com.simbest.bps.listener.schedule.mapper.TaskCallbackRetryMapper"/>

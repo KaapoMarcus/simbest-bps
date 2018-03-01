@@ -1,14 +1,13 @@
 package com.simbest.bps.app.api;
 
-import com.eos.workflow.api.BPSServiceClientFactory;
-import com.eos.workflow.api.IBPSServiceClient;
-import com.eos.workflow.api.IWFActivityInstManager;
-import com.eos.workflow.api.IWFBackActivityManager;
-import com.eos.workflow.api.IWFProcessInstManager;
-import com.eos.workflow.api.IWFWorkItemManager;
-import com.eos.workflow.api.IWFWorklistQueryManager;
+import com.eos.workflow.api.*;
 import com.primeton.workflow.api.WFServiceException;
 
+/**
+ * BPS 调用API
+ *
+ * @author LJW
+ */
 public class BPSAPI {
 	/**
 	 * 流程实例管理、查询接口 
@@ -65,5 +64,17 @@ public class BPSAPI {
 		IWFBackActivityManager WFBackActivityManager = client.getBackActivityManager();
 		return WFBackActivityManager;
 	}
-	
+
+    /**
+     * 业务流程查询接口
+     *     主要提供业务流程管理中需要使用的查询接口， 可以查询业务流程实体、活动定义实体、连线实体、流程包列表、流程目录、活动已经定义的参与者等信息
+     *
+     * @return
+     * @throws WFServiceException
+     */
+    public IWFDefinitionQueryManager getWFDefinitionQueryManager() throws WFServiceException{
+        IBPSServiceClient client = BPSServiceClientFactory.getDefaultClient();
+        IWFDefinitionQueryManager iwfDefinitionQueryManager = client.getDefinitionQueryManager();
+        return iwfDefinitionQueryManager;
+    }
 }
