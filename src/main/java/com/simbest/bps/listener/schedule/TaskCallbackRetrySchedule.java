@@ -24,7 +24,7 @@ import java.util.Collection;
 /**
  * 用途：每十分钟检查一次待办生成与待办核销的回调接口执行情况，执行回调失败的任务，一个尝试执行5次(基于SQL)
  * 作者: lishuyi 
- * 时间: 2016-04-18  18:08 
+ * 时间: 2016-04-18  18:08
  */
 @Component
 public class TaskCallbackRetrySchedule extends ApplicationObjectSupport {
