@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 /**
  * 自定义BPS流程回退操作
  *
- * @author
+ * @author  LJW
  */
 @Component
 public class CustomWFBackActivityManager {
