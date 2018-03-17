@@ -1,8 +1,15 @@
 package com.simbest.bps.app.web;
 
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.simbest.cores.admin.authority.model.SysRole;
+import com.simbest.cores.admin.authority.model.SysUser;
+import com.simbest.cores.admin.authority.service.ISysOrgAdvanceService;
+import com.simbest.cores.admin.authority.service.ISysRoleAdvanceService;
+import com.simbest.cores.admin.authority.service.ISysUserAdvanceService;
+import com.simbest.cores.app.authority.RetryLimitHashedCredentialsMatcher;
+import com.simbest.cores.utils.Digests;
+import com.simbest.cores.utils.Encodes;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.crypto.hash.Hash;
@@ -14,20 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.simbest.cores.admin.authority.model.SysOrg;
-import com.simbest.cores.admin.authority.model.SysRole;
-import com.simbest.cores.admin.authority.model.SysUser;
-import com.simbest.cores.admin.authority.service.ISysOrgAdvanceService;
-import com.simbest.cores.admin.authority.service.ISysRoleAdvanceService;
-import com.simbest.cores.admin.authority.service.ISysUserAdvanceService;
-import com.simbest.cores.app.authority.RetryLimitHashedCredentialsMatcher;
-import com.simbest.cores.utils.Digests;
-import com.simbest.cores.utils.Encodes;
+import java.util.List;
+import java.util.Map;
 
 /**
- * 集成人员组织查询接口
+ * 集成人员权限信息查询
  * @author Administrator
  *
  */
