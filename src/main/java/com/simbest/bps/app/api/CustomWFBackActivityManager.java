@@ -53,7 +53,7 @@ public class CustomWFBackActivityManager {
 	public static String SIMPLE = "simple";
 
     /**
-     * 回退
+     * 回退  单步回退
      * @param workItemID          工作项ID
      * @param destActDefID        目标活动ID
      */
