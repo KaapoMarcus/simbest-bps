@@ -190,7 +190,6 @@
         </dependency>
 		<!-- BPS end-->
         <!-- BPS 3rd-->
-		
         <dependency>
 		    <groupId>stax</groupId>
 		    <artifactId>stax-api</artifactId>
