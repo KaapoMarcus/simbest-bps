@@ -3,21 +3,22 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.simbest</groupId>
-		<artifactId>simbest-parent</artifactId>
-		<version>0.6</version>
-		<relativePath>../simbest-parent</relativePath>
-	</parent>
+    <parent>
+        <groupId>com.simbest</groupId>
+        <artifactId>simbest-parent</artifactId>
+        <version>0.6</version>
+        <relativePath>../simbest-parent</relativePath>
+    </parent>
+
 	<groupId>com.simbest</groupId>
 	<artifactId>simbest-bps</artifactId>
 	<version>0.6</version>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
-	
-	
-	<properties>		
+
+
+	<properties>
 
 	</properties>
 		
@@ -230,18 +231,76 @@
 	</dependencies>
 	
 	<build>
-			<finalName>${project.artifactId}</finalName>
-	</build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<repositories>
-		<repository>
-			<id>simbest-cores-mvn-repo</id>
-			<url>https://raw.github.com/simbest/simbest-cores/mvn-repo/</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>simbest-parent-mvn-repo</id>
+            <url>https://raw.github.com/simbest/simbest-parent/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>simbest-cores-mvn-repo</id>
+            <url>https://raw.github.com/simbest/simbest-cores/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>simbest-mp-mvn-repo</id>
+            <url>https://raw.github.com/simbest/simbest-mp/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>simbest-api-mvn-repo</id>
+            <url>https://raw.github.com/simbest/simbest-api/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>simbest-bps-mvn-repo</id>
+            <url>https://raw.github.com/simbest/simbest-bps/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>simbest-maven-repo1</id>
+            <url>https://raw.github.com/simbest/simbest-maven-repo/master/repository/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>simbest-maven-repo2</id>
+            <url>https://github.com/simbest/simbest-maven-repo/tree/master/repository/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 	
 </project>

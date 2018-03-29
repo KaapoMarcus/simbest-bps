@@ -3,12 +3,11 @@
  */
 package com.simbest.bps.query.mapper;
 
-import java.util.List;
-
+import com.simbest.bps.query.model.ActBusinessStatus;
+import com.simbest.cores.mapper.IGenericMapper;
 import org.apache.ibatis.session.RowBounds;
 
-import com.simbest.cores.mapper.IGenericMapper;
-import com.simbest.bps.query.model.ActBusinessStatus;
+import java.util.List;
 
 /**
  * 流程业务操作持久层
@@ -20,7 +19,7 @@ public interface ActBusinessStatusMapper extends IGenericMapper<ActBusinessStatu
      * @param o
      * @return
      */
-	List<ActBusinessStatus> queryMyTask(ActBusinessStatus o);
+	List<ActBusinessStatus> queryMyTask(ActBusinessStatus o, RowBounds rowBounds);
 
     /**
      * 统计待办
@@ -34,7 +33,7 @@ public interface ActBusinessStatusMapper extends IGenericMapper<ActBusinessStatu
      * @param o
      * @return
      */
-	List<ActBusinessStatus> queryMyJoin(ActBusinessStatus o);
+	List<ActBusinessStatus> queryMyJoin(ActBusinessStatus o,RowBounds rowBounds);
 
     /**
      * 统计已办
@@ -55,7 +54,7 @@ public interface ActBusinessStatusMapper extends IGenericMapper<ActBusinessStatu
      * @param actBusinessStatus
      * @return
      */
-    List<ActBusinessStatus> queryManagerFlow(ActBusinessStatus actBusinessStatus);
+    List<ActBusinessStatus> queryManagerFlow(ActBusinessStatus actBusinessStatus,RowBounds rowBounds);
     Integer countManagerFlow(ActBusinessStatus actBusinessStatus);
 
     /**
@@ -63,6 +62,6 @@ public interface ActBusinessStatusMapper extends IGenericMapper<ActBusinessStatu
      * @param actBusinessStatus
      * @return
      */
-    List<ActBusinessStatus> queryDeptProcess(ActBusinessStatus actBusinessStatus);
+    List<ActBusinessStatus> queryDeptProcess(ActBusinessStatus actBusinessStatus,RowBounds rowBounds);
     Integer queryDeptProcessCount(ActBusinessStatus actBusinessStatus);
 }

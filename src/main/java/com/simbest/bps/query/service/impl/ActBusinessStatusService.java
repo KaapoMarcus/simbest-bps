@@ -3,35 +3,28 @@
  */
 package com.simbest.bps.query.service.impl;
 
-import com.google.common.collect.Maps;
+import com.simbest.bps.query.mapper.ActBusinessStatusMapper;
+import com.simbest.bps.query.model.ActBusinessStatus;
+import com.simbest.bps.query.service.IActBusinessStatusService;
 import com.simbest.cores.admin.authority.model.ShiroUser;
 import com.simbest.cores.admin.authority.model.SysOrg;
 import com.simbest.cores.admin.authority.model.SysUser;
 import com.simbest.cores.admin.authority.service.ISysOrgAdvanceService;
 import com.simbest.cores.admin.authority.service.ISysUserAdvanceService;
-import com.simbest.cores.exceptions.Exceptions;
-import com.simbest.cores.exceptions.TransactionRollbackException;
 import com.simbest.cores.service.impl.GenericMapperService;
 import com.simbest.cores.shiro.AppUserSession;
 import com.simbest.cores.utils.DateUtil;
 import com.simbest.cores.utils.SpringContextUtil;
 import com.simbest.cores.utils.pages.PageSupport;
-import com.simbest.bps.query.mapper.ActBusinessStatusMapper;
-import com.simbest.bps.query.model.ActBusinessStatus;
-import com.simbest.bps.query.service.IActBusinessStatusService;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 流程业务状态操作控制
@@ -138,7 +131,7 @@ public class ActBusinessStatusService extends GenericMapperService<ActBusinessSt
 	public PageSupport<ActBusinessStatus> queryMyTask(String uniqueCode,ActBusinessStatus o,
 			int pageindex, int pagesize) {
 		o.setUniqueCode(uniqueCode);
-        List<ActBusinessStatus> list = mapper.queryMyTask(o);
+        List<ActBusinessStatus> list = mapper.queryMyTask(o,new RowBounds( pageindex,pagesize ));
         Integer count = mapper.countMyTask(o);
         PageSupport ps = new PageSupport(list, count, pageindex, pagesize);
         return ps;
@@ -152,7 +145,7 @@ public class ActBusinessStatusService extends GenericMapperService<ActBusinessSt
 	public PageSupport<ActBusinessStatus> queryMyJoin(String uniqueCode,ActBusinessStatus o,
 			int pageindex, int pagesize) {
 		o.setUniqueCode(uniqueCode);
-        List<ActBusinessStatus> list = mapper.queryMyJoin(o);
+        List<ActBusinessStatus> list = mapper.queryMyJoin(o,new RowBounds( pageindex,pagesize ));
         Integer count = mapper.countMyJoin(o);
         PageSupport ps = new PageSupport(list, count, pageindex, pagesize);
         return ps;
@@ -167,7 +160,7 @@ public class ActBusinessStatusService extends GenericMapperService<ActBusinessSt
      */
     @Override
     public PageSupport<ActBusinessStatus> queryManagerFlow ( ActBusinessStatus actBusinessStatus, int pageindex, int pagesize ) {
-        List<ActBusinessStatus> actBusinessStatusList = mapper.queryManagerFlow( actBusinessStatus );
+        List<ActBusinessStatus> actBusinessStatusList = mapper.queryManagerFlow( actBusinessStatus, new RowBounds( pageindex,pagesize ) );
         Integer count = mapper.countManagerFlow( actBusinessStatus );
         PageSupport pageSupport = new PageSupport(actBusinessStatusList,count,pageindex,pagesize);
         return pageSupport;
