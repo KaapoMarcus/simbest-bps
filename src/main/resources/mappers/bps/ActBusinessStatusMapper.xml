@@ -265,7 +265,14 @@
 
     <!--部门进度查询-->
     <select id="queryDeptProcess" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
-        SELECT DISTINCT act_business_status.*, wf_workitem.workItemID, wf_workitem.activityInstName, m_ha_pm_instance.assessor_name,user_snapshot.postName
+        SELECT DISTINCT act_business_status.*,
+        m_ha_pm_instance.assessor_name,
+        user_snapshot.postName,
+        wf_workitem_model.activityDefID,
+        wf_workitem_model.activityInstName,
+        wf_workitem_model.participant,
+        wf_workitem_model.assistant,
+        wf_workitem_model.startTime AS workItemStartTime
         FROM act_business_status
             LEFT JOIN (
             SELECT *
