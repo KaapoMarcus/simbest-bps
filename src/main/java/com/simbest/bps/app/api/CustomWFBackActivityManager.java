@@ -117,7 +117,6 @@ public class CustomWFBackActivityManager {
                 int currentSate = wfWorkItemModel.getCurrentState();
                 if ( currentSate == 10 ){
                     //修改当前工作项状态为 逻辑删除状态 BPS状态为 终止状态，需要回退到的工作项BPS状态为 运行状态
-                    Long preWorkItemID = workItemID - 1;
                     wfWorkItemModel.setEnabled( true );
                     wfWorkItemModel.setRemoved( false );
                     wfWorkItemModel.setProcessInstID( currentPorInstId );
