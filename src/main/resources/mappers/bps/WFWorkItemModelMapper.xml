@@ -189,7 +189,7 @@
 			<if test="title != null and title != ''">,title = #{title}</if>
 			<if test="receiptid != null">,receiptid = #{receiptid}</if>
 			<if test="code != null and code != ''">,code = #{code}</if>
-            <if test="processStateFlag != null and processStateFlag !=''">and processStateFlag = #{processStateFlag}</if>
+            <if test="processStateFlag != null and processStateFlag !=''">,processStateFlag = #{processStateFlag}</if>
 		where id=#{id}
 	</update>  
 	
