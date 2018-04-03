@@ -54,7 +54,7 @@
 	</select>
 	
 	<select id='getByWorkItemID' parameterType='Long' resultMap="WFWorkItemModelResult">
-		SELECT * FROM wf_workitem_model WHERE workItemID =#{workItemID} and t.enabled='1' and t.removed='0'
+		SELECT * FROM wf_workitem_model WHERE workItemID =#{workItemID} and enabled='1' and removed='0'
 	</select>
 
 	<select id="getAll" parameterType="com.simbest.bps.app.model.WFWorkItemModel" resultMap="WFWorkItemModelResult">
