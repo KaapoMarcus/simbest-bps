@@ -117,11 +117,12 @@ public class CustomWFBackActivityManager {
                 int currentSate = wfWorkItemModel.getCurrentState();
                 if ( currentSate == 10 ){
                     //修改当前工作项状态为 逻辑删除状态 BPS状态为 终止状态，需要回退到的工作项BPS状态为 运行状态
-                    wfWorkItemModel.setEnabled( true );
-                    wfWorkItemModel.setRemoved( false );
-                    wfWorkItemModel.setProcessInstID( currentPorInstId );
-                    wfWorkItemModel.setActivityDefID(destActDefID);
-                    List<WFWorkItemModel> wfWorkItemModels =  (List<WFWorkItemModel> ) wFWorkItemModelService.getAll( wfWorkItemModel );
+                    WFWorkItemModel wfWorkItemModel_his = new WFWorkItemModel();
+                    wfWorkItemModel_his.setEnabled( true );
+                    wfWorkItemModel_his.setRemoved( false );
+                    wfWorkItemModel_his.setProcessInstID( currentPorInstId );
+                    wfWorkItemModel_his.setActivityDefID(destActDefID);
+                    List<WFWorkItemModel> wfWorkItemModels =  (List<WFWorkItemModel> ) wFWorkItemModelService.getAll( wfWorkItemModel_his );
                     wfWorkItemModel = wfWorkItemModels.get( 0 );
                     wfWorkItemModel.setCurrentState( 10 );
                     wFWorkItemModelService.update(wfWorkItemModel);
