@@ -125,7 +125,6 @@ public class CustomWFBackActivityManager {
                     wfWorkItemModel = wfWorkItemModels.get( 0 );
                     wfWorkItemModel.setCurrentState( 10 );
                     wFWorkItemModelService.update(wfWorkItemModel);
-                    destActDefID = wfWorkItemModel.getActivityDefID();
                     wFBackActivityManager.backActivity( currentActInstId,destActDefID,CustomWFBackActivityManager.PATH );
                     //当前工作项
                     WFWorkItemModel wfWorkItemModel_tmp = wFWorkItemModelService.getByWorkItemID( workItemID );
