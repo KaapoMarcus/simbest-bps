@@ -248,11 +248,17 @@
         <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
         <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
         <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
-        <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if
+        <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
+        <if test="createOrgName != null and createOrgName !=''"> AND act_business_status.createOrgName = #{createOrgName}</if>
         <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
+        <if test="postName != null and postName =='YZF'">AND m_ha_pm_instance.positionType in ('Y','Z','F',)</if>
+        <if test="postName != null and postName =='Y'">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='Z'">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='F'">AND m_ha_pm_instance.positionType = #{postName}</if>
+
         <if test='pmStateFlag != null and pmStateFlag == "00"'>
             AND wf_workitem_model.processStateFlag in ('01','03','04')
         </if>
@@ -265,17 +271,26 @@
     </select>
 
     <select id="countManagerFlow" parameterType="ActBusinessStatus"  resultType="Integer">
-        SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model WHERE
+        SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model,m_ha_pm_instance WHERE
         act_business_status.processInstID =wf_workitem_model.processInstID
         and act_business_status.enabled = 1
         and wf_workitem_model.enabled = 1
+        and act_business_status.businessKey =m_ha_pm_instance.id
         <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
         <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
         <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
+        <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
+        <if test="createOrgName != null and createOrgName !=''"> AND act_business_status.createOrgName = #{createOrgName}</if>
         <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
+        <if test="postName != null and postName =='YZF'">AND m_ha_pm_instance.positionType in ('Y','Z','F',)</if>
+        <if test="postName != null and postName =='Y'">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='Z'">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='F'">AND m_ha_pm_instance.positionType = #{postName}</if>
+
+
         <if test='pmStateFlag != null and pmStateFlag == "00"'>
             AND wf_workitem_model.processStateFlag in ('01','03','04')
         </if>
