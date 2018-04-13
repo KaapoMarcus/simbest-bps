@@ -140,7 +140,7 @@ public class ActBusinessStatus extends GenericModel<ActBusinessStatus> {
 
     @Transient
     private String pmStateFlag;
-    
+
 
     public Long getId() {
         return id;

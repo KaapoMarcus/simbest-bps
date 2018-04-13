@@ -181,7 +181,7 @@
         </foreach>
     </update>
     <!--查询待办-->
-    <select id="queryMyTask" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
+    <select id="queryMyTask" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="mysql">
         SELECT act_business_status.*,
         wf_workitem_model.workItemID , wf_workitem_model.activityDefID, wf_workitem_model.activityInstName, wf_workitem_model.participant, wf_workitem_model.assistant, wf_workitem_model.startTime as workItemStartTime
         FROM act_business_status,wf_workitem_model WHERE 
@@ -193,7 +193,7 @@
         and wf_workitem_model.enabled = 1
         order by wf_workitem_model.startTime desc
     </select>
-    <select id="countMyTask" parameterType="ActBusinessStatus"  resultType="Integer">
+    <select id="countMyTask" parameterType="ActBusinessStatus"  resultType="Integer" databaseId="mysql">
         SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model WHERE 
         act_business_status.processInstID =wf_workitem_model.processInstID
         and wf_workitem_model.currentState = 10<!-- 运行（10） -->
@@ -203,12 +203,34 @@
         <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
     </select>
 
+    <select id="queryMyTask" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="oracle">
+        SELECT act_business_status.*,
+        wf_workitem_model.workItemID , wf_workitem_model.activityDefID, wf_workitem_model.activityInstName, wf_workitem_model.participant, wf_workitem_model.assistant, wf_workitem_model.startTime as workItemStartTime
+        FROM act_business_status,wf_workitem_model WHERE
+        act_business_status.processInstID =wf_workitem_model.processInstID
+        and wf_workitem_model.currentState = 10<!-- 运行（10） -->
+        and wf_workitem_model.participant = #{uniqueCode}
+        <if test="title != null and title !=''">and act_business_status.title like concat(concat('%',#{title}),'%')</if>
+        and act_business_status.enabled = 1
+        and wf_workitem_model.enabled = 1
+        order by wf_workitem_model.startTime desc
+    </select>
+    <select id="countMyTask" parameterType="ActBusinessStatus"  resultType="Integer" databaseId="oracle">
+        SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model WHERE
+        act_business_status.processInstID =wf_workitem_model.processInstID
+        and wf_workitem_model.currentState = 10<!-- 运行（10） -->
+        and act_business_status.enabled = 1
+        and wf_workitem_model.enabled = 1
+        and wf_workitem_model.participant = #{uniqueCode}
+        <if test="title != null and title !=''">and act_business_status.title like concat(concat('%',#{title}),'%')</if>
+    </select>
+
     <!--查询我的已办-->
-    <select id="queryMyJoin" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
-        SELECT DISTINCT act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name
-        FROM act_business_status 
-        LEFT JOIN 
-        (select * from wf_workitem_model A  where workItemID=(select max(workItemID) from wf_workitem_model B where A.processInstID=B.processInstID)) wf_workitem 
+    <select id="queryMyJoin" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="mysql">
+        SELECT act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name,wf_workitem_model.endTime
+        FROM act_business_status
+        LEFT JOIN
+        (select * from wf_workitem_model A  where workItemID=(select max(workItemID) from wf_workitem_model B where A.processInstID=B.processInstID)) wf_workitem
         on wf_workitem.processInstID = act_business_status.processInstID
         ,wf_workitem_model,m_ha_pm_instance WHERE
         act_business_status.processInstID =wf_workitem_model.processInstID
@@ -220,11 +242,11 @@
         <if test="currentState != null and currentState !=''">and act_business_status.currentState = #{currentState}</if>
         and act_business_status.enabled = 1
         and wf_workitem_model.enabled = 1
-        order by wf_workitem.endTime desc
+        order by wf_workitem_model.endTime desc
     </select>
 
-    <select id="countMyJoin" parameterType="ActBusinessStatus"  resultType="Integer">
-        SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model WHERE 
+    <select id="countMyJoin" parameterType="ActBusinessStatus"  resultType="Integer" databaseId="mysql">
+        SELECT COUNT(act_business_status.id) FROM act_business_status,wf_workitem_model WHERE
         act_business_status.processInstID =wf_workitem_model.processInstID
         and wf_workitem_model.currentState in (12,13) <!-- 完成（12）、终止（13） -->
         and act_business_status.enabled = 1
@@ -235,14 +257,83 @@
         <if test="currentState != null and currentState !=''">and act_business_status.currentState = #{currentState}</if>
     </select>
 
+    <select id="queryMyJoin" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="oracle">
+        SELECT act_business_status.ID,
+        act_business_status.ACT_PARENTID,
+        act_business_status.BUSINESSKEY,
+        act_business_status.CODE,
+        act_business_status.CREATEORGID,
+        act_business_status.CREATEORGNAME,
+        act_business_status.CREATETIME,
+        act_business_status.CREATEUSERCODE,
+        act_business_status.CREATEUSERID,
+        act_business_status.CREATEUSERNAME,
+        act_business_status.CURRENTSTATE,
+        act_business_status.DURATION,
+        act_business_status.ENABLED,
+        act_business_status.ENDACTIVITYID,
+        act_business_status.ENDACTIVITYNAME,
+        act_business_status.PREVIOUSASSISTANT,
+        act_business_status.PREVIOUSASSISTANTDATE,
+        act_business_status.PREVIOUSASSISTANTNAME,
+        act_business_status.PREVIOUSASSISTANTORGID,
+        act_business_status.PREVIOUSASSISTANTORGNAME,
+        act_business_status.PREVIOUSASSISTANTUNIQUECODE,
+        act_business_status.PROCESSCHNAME,
+        act_business_status.PROCESSDEFID,
+        act_business_status.PROCESSDEFNAME,
+        act_business_status.PROCESSINSTID,
+        act_business_status.REMOVED,
+        act_business_status.STARTACTIVITYID,
+        act_business_status.STARTACTIVITYNAME,
+        act_business_status.STARTTIME,
+        act_business_status.TITLE,
+        act_business_status.UPDATETIME,
+        wf_workitem.workItemID,
+        wf_workitem.activityInstName,
+        m_ha_pm_instance.assessor_name,
+        wf_workitem_model.endTime
+        FROM act_business_status
+        LEFT JOIN (select *
+        from wf_workitem_model A
+        where workItemID =
+        (select max(workItemID)
+        from wf_workitem_model B
+        where A.processInstID = B.processInstID)) wf_workitem
+        on wf_workitem.processInstID = act_business_status.processInstID,
+        wf_workitem_model, m_ha_pm_instance
+        WHERE act_business_status.processInstID = wf_workitem_model.processInstID
+        and act_business_status.businessKey =m_ha_pm_instance.id
+        and wf_workitem_model.currentState in (12,13) <!-- 完成（12）、终止（13） -->
+        and wf_workitem_model.assistant = #{uniqueCode}
+        <if test="title != null and title !=''">and act_business_status.title like concat(concat('%',#{title}),'%')</if>
+        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat(concat('%',#{createUserName}),'%')</if>
+        <if test="currentState != null and currentState !=''">and act_business_status.currentState = #{currentState}</if>
+        and act_business_status.enabled = 1
+        and wf_workitem_model.enabled = 1
+        order by wf_workitem_model.endTime desc
+    </select>
+
+    <select id="countMyJoin" parameterType="ActBusinessStatus"  resultType="Integer" databaseId="oracle">
+        SELECT COUNT(act_business_status.id) FROM act_business_status,wf_workitem_model WHERE
+        act_business_status.processInstID =wf_workitem_model.processInstID
+        and wf_workitem_model.currentState in (12,13) <!-- 完成（12）、终止（13） -->
+        and act_business_status.enabled = 1
+        and wf_workitem_model.enabled = 1
+        and wf_workitem_model.assistant = #{uniqueCode}
+        <if test="title != null and title !=''">and act_business_status.title like concat(concat('%',#{title},)'%')</if>
+        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat(concat('%',#{createUserName},)'%')</if>
+        <if test="currentState != null and currentState !=''">and act_business_status.currentState = #{currentState}</if>
+    </select>
+
     <!--维护所用查询-->
-    <select id="queryManagerFlow" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
-        SELECT DISTINCT act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name
+    <select id="queryManagerFlow" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="mysql">
+        SELECT  act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name,m_ha_pm_instance.PM_INS_DEPARTMENT_GRADE_LEVEL,m_ha_pm_instance.PM_INS_DEPARTMENT_TOTAL_SCORE,sys_user.position,wf_workitem.updateDate
         FROM act_business_status
         LEFT JOIN
         (select * from wf_workitem_model A  where workItemID=(select max(workItemID) from wf_workitem_model B where A.processInstID=B.processInstID and B.enabled=1)) wf_workitem
         on wf_workitem.processInstID = act_business_status.processInstID
-        ,wf_workitem_model,m_ha_pm_instance WHERE
+        ,wf_workitem_model,m_ha_pm_instance,sys_user WHERE
         act_business_status.processInstID =wf_workitem_model.processInstID
         and act_business_status.businessKey =m_ha_pm_instance.id
         <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
@@ -254,10 +345,10 @@
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
-        <if test="postName != null and postName =='YZF'">AND m_ha_pm_instance.positionType in ('Y','Z','F',)</if>
-        <if test="postName != null and postName =='Y'">AND m_ha_pm_instance.positionType = #{postName}</if>
-        <if test="postName != null and postName =='Z'">AND m_ha_pm_instance.positionType = #{postName}</if>
-        <if test="postName != null and postName =='F'">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='YZF'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='Y'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='Z'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='F'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
 
         <if test='pmStateFlag != null and pmStateFlag == "00"'>
             AND wf_workitem_model.processStateFlag in ('01','03','04')
@@ -270,7 +361,7 @@
         order by wf_workitem.updateDate desc
     </select>
 
-    <select id="countManagerFlow" parameterType="ActBusinessStatus"  resultType="Integer">
+    <select id="countManagerFlow" parameterType="ActBusinessStatus"  resultType="Integer" databaseId="mysql">
         SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model,m_ha_pm_instance WHERE
         act_business_status.processInstID =wf_workitem_model.processInstID
         and act_business_status.enabled = 1
@@ -285,10 +376,73 @@
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
-        <if test="postName != null and postName =='YZF'">AND m_ha_pm_instance.positionType in ('Y','Z','F',)</if>
-        <if test="postName != null and postName =='Y'">AND m_ha_pm_instance.positionType = #{postName}</if>
-        <if test="postName != null and postName =='Z'">AND m_ha_pm_instance.positionType = #{postName}</if>
-        <if test="postName != null and postName =='F'">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='YZF'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='Y'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='Z'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='F'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
+
+
+        <if test='pmStateFlag != null and pmStateFlag == "00"'>
+            AND wf_workitem_model.processStateFlag in ('01','03','04')
+        </if>
+        <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
+        <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
+        <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
+    </select>
+
+    <select id="queryManagerFlow" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="oracle">
+        SELECT DISTINCT act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name,m_ha_pm_instance.PM_INS_DEPARTMENT_GRADE_LEVEL,m_ha_pm_instance.PM_INS_DEPARTMENT_TOTAL_SCORE,sys_user.position
+        FROM act_business_status
+        LEFT JOIN
+        (select * from wf_workitem_model A  where workItemID=(select max(workItemID) from wf_workitem_model B where A.processInstID=B.processInstID and B.enabled=1)) wf_workitem
+        on wf_workitem.processInstID = act_business_status.processInstID
+        ,wf_workitem_model,m_ha_pm_instance,sys_user WHERE
+        act_business_status.processInstID =wf_workitem_model.processInstID
+        and act_business_status.businessKey =m_ha_pm_instance.id
+        <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
+        <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
+        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
+        <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
+        <if test="createOrgName != null and createOrgName !=''"> AND act_business_status.createOrgName = #{createOrgName}</if>
+        <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
+        <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
+        <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
+        <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
+        <if test="postName != null and postName =='YZF'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='Y'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='Z'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='F'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
+
+        <if test='pmStateFlag != null and pmStateFlag == "00"'>
+            AND wf_workitem_model.processStateFlag in ('01','03','04')
+        </if>
+        <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
+        <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
+        <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
+        and act_business_status.enabled = 1
+        and wf_workitem_model.enabled = 1
+        order by wf_workitem.updateDate desc
+    </select>
+
+    <select id="countManagerFlow" parameterType="ActBusinessStatus"  resultType="Integer" databaseId="oracle">
+        SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model,m_ha_pm_instance WHERE
+        act_business_status.processInstID =wf_workitem_model.processInstID
+        and act_business_status.enabled = 1
+        and wf_workitem_model.enabled = 1
+        and act_business_status.businessKey =m_ha_pm_instance.id
+        <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
+        <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
+        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
+        <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
+        <if test="createOrgName != null and createOrgName !=''"> AND act_business_status.createOrgName = #{createOrgName}</if>
+        <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
+        <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
+        <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
+        <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
+        <if test="postName != null and postName =='YZF'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='Y'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='Z'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
+        <if test="postName != null and postName =='F'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
 
 
         <if test='pmStateFlag != null and pmStateFlag == "00"'>
@@ -300,7 +454,7 @@
     </select>
 
     <!--部门进度查询-->
-    <select id="queryDeptProcess" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult">
+    <select id="queryDeptProcess" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="mysql">
         SELECT DISTINCT act_business_status.*,
         m_ha_pm_instance.assessor_name,
         user_snapshot.postName,
@@ -341,7 +495,7 @@
         ORDER BY act_business_status.updateTime DESC
     </select>
 
-    <select id="queryDeptProcessCount" parameterType="ActBusinessStatus"  resultType="Integer">
+    <select id="queryDeptProcessCount" parameterType="ActBusinessStatus"  resultType="Integer" databaseId="mysql">
         SELECT count(1)
         FROM act_business_status
             LEFT JOIN (
@@ -365,5 +519,72 @@
             <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
             <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
             <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
+    </select>
+
+    <select id="queryDeptProcess" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="oracle">
+        SELECT DISTINCT act_business_status.*,
+        m_ha_pm_instance.assessor_name,
+        user_snapshot.postName,
+        wf_workitem.workItemID,
+        wf_workitem_model.activityDefID,
+        wf_workitem_model.activityInstName,
+        wf_workitem_model.participant,
+        wf_workitem_model.assistant,
+        wf_workitem_model.startTime AS workItemStartTime
+        FROM act_business_status
+        LEFT JOIN (
+        SELECT *
+        FROM wf_workitem_model A
+        WHERE workItemID = (
+        SELECT max(workItemID)
+        FROM wf_workitem_model B
+        WHERE A.processInstID = B.processInstID
+        )
+        ) wf_workitem ON wf_workitem.processInstID = act_business_status.processInstID,
+        wf_workitem_model,m_ha_pm_instance,user_snapshot
+        WHERE act_business_status.processInstID = wf_workitem_model.processInstID
+        AND act_business_status.businessKey = m_ha_pm_instance.id
+        AND m_ha_pm_instance.snapshot_id = user_snapshot.id
+        AND act_business_status.enabled = 1
+        AND wf_workitem_model.enabled = 1
+        <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
+        <if test="createUserName != null and createUserName !=''"> AND act_business_status.createUserName like concat(concat('%',#{createUserName},)'%')</if>
+        <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
+        <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
+        <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
+        <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
+        <if test='pmStateFlag != null and pmStateFlag == "00"'>
+            AND wf_workitem_model.processStateFlag in ('01','03','04')
+        </if>
+        <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
+        <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
+        <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
+        ORDER BY act_business_status.updateTime DESC
+    </select>
+
+    <select id="queryDeptProcessCount" parameterType="ActBusinessStatus"  resultType="Integer" databaseId="oracle">
+        SELECT count(1)
+        FROM act_business_status
+        LEFT JOIN (
+        SELECT *
+        FROM wf_workitem_model A
+        WHERE workItemID = (
+        SELECT max(workItemID)
+        FROM wf_workitem_model B
+        WHERE A.processInstID = B.processInstID
+        )
+        ) wf_workitem ON wf_workitem.processInstID = act_business_status.processInstID,
+        wf_workitem_model,m_ha_pm_instance,user_snapshot
+        WHERE act_business_status.processInstID = wf_workitem_model.processInstID
+        AND act_business_status.businessKey = m_ha_pm_instance.id
+        AND m_ha_pm_instance.snapshot_id = user_snapshot.id
+        AND act_business_status.enabled = 1
+        AND wf_workitem_model.enabled = 1
+        <if test='pmStateFlag != null and pmStateFlag == "00"'>
+            AND wf_workitem_model.processStateFlag in ('01','03','04')
+        </if>
+        <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
+        <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
+        <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
     </select>
 </mapper>
