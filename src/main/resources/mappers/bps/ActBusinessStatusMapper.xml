@@ -391,7 +391,7 @@
     </select>
 
     <select id="queryManagerFlow" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="oracle">
-        SELECT DISTINCT act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name,m_ha_pm_instance.PM_INS_DEPARTMENT_GRADE_LEVEL,m_ha_pm_instance.PM_INS_DEPARTMENT_TOTAL_SCORE,sys_user.position
+        SELECT DISTINCT act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name,m_ha_pm_instance.PM_INS_DEPARTMENT_GRADE_LEVEL,m_ha_pm_instance.PM_INS_DEPARTMENT_TOTAL_SCORE,sys_user.position,wf_workitem.updateDate
         FROM act_business_status
         LEFT JOIN
         (select * from wf_workitem_model A  where workItemID=(select max(workItemID) from wf_workitem_model B where A.processInstID=B.processInstID and B.enabled=1)) wf_workitem
