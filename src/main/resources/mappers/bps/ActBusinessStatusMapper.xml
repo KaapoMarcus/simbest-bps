@@ -328,12 +328,12 @@
 
     <!--维护所用查询-->
     <select id="queryManagerFlow" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="mysql">
-        SELECT  act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name,m_ha_pm_instance.PM_INS_DEPARTMENT_GRADE_LEVEL,m_ha_pm_instance.PM_INS_DEPARTMENT_TOTAL_SCORE,sys_user.position,wf_workitem.updateDate
+        SELECT DISTINCT act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name,wf_workitem.updateDate
         FROM act_business_status
         LEFT JOIN
         (select * from wf_workitem_model A  where workItemID=(select max(workItemID) from wf_workitem_model B where A.processInstID=B.processInstID and B.enabled=1)) wf_workitem
         on wf_workitem.processInstID = act_business_status.processInstID
-        ,wf_workitem_model,m_ha_pm_instance,sys_user WHERE
+        ,wf_workitem_model,m_ha_pm_instance WHERE
         act_business_status.processInstID =wf_workitem_model.processInstID
         and act_business_status.businessKey =m_ha_pm_instance.id
         <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
@@ -376,6 +376,10 @@
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
+        <if test="postName != null and postName =='YZF,Y,Z,F'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='Y,Z'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z')</if>
+        <if test="postName != null and postName =='Y,F'.toString()">AND m_ha_pm_instance.positionType in ('Y','F')</if>
+        <if test="postName != null and postName =='Z,F'.toString()">AND m_ha_pm_instance.positionType in ('Z','F')</if>
         <if test="postName != null and postName =='YZF'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
         <if test="postName != null and postName =='Y'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='Z'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
@@ -391,12 +395,12 @@
     </select>
 
     <select id="queryManagerFlow" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="oracle">
-        SELECT DISTINCT act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name,m_ha_pm_instance.PM_INS_DEPARTMENT_GRADE_LEVEL,m_ha_pm_instance.PM_INS_DEPARTMENT_TOTAL_SCORE,sys_user.position,wf_workitem.updateDate
+        SELECT DISTINCT act_business_status.*,wf_workitem.workItemID,wf_workitem.activityInstName,m_ha_pm_instance.assessor_name,wf_workitem.updateDate
         FROM act_business_status
         LEFT JOIN
         (select * from wf_workitem_model A  where workItemID=(select max(workItemID) from wf_workitem_model B where A.processInstID=B.processInstID and B.enabled=1)) wf_workitem
         on wf_workitem.processInstID = act_business_status.processInstID
-        ,wf_workitem_model,m_ha_pm_instance,sys_user WHERE
+        ,wf_workitem_model,m_ha_pm_instance WHERE
         act_business_status.processInstID =wf_workitem_model.processInstID
         and act_business_status.businessKey =m_ha_pm_instance.id
         <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
@@ -408,7 +412,10 @@
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
-        <if test="postName != null and postName =='YZF'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='YZF,Y,Z,F'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='Y,Z'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z')</if>
+        <if test="postName != null and postName =='Y,F'.toString()">AND m_ha_pm_instance.positionType in ('Y','F')</if>
+        <if test="postName != null and postName =='Z,F'.toString()">AND m_ha_pm_instance.positionType in ('Z','F')</if>
         <if test="postName != null and postName =='Y'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='Z'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='F'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
