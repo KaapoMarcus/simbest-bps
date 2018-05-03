@@ -59,14 +59,14 @@ public class WFProcessInstListener {
 			ret = wFProcessInstModelService.start(processInstID, processInstName, processInstDesc, creator, owner, currentState, createTime, startTime, endTime, finalTime, remindTime, parentProcID, parentActID, processDefID, isTimeOut, timeOutNum, timeOutNumDesc, updateVersion, processDefName, catalogUUID, catalogName, title, receiptId, code, currentUserCode);
 			ret = statusService.createListener(processInstID, processInstName, processInstDesc, creator, owner, currentState, createTime, startTime, endTime, finalTime, remindTime, parentProcID, parentActID, processDefID, isTimeOut, timeOutNum, timeOutNumDesc, updateVersion, processDefName, catalogUUID, catalogName, title, receiptId, code, currentUserCode);
 			log.debug("WFProcessInstListener>>>>>>>>>>>>>>>>>>>start>>>>>"+ret);
-			o.put("mes", ret > 0 ? "操作成功!" : "操作失败!"); // 返回值兼容批量更新
-			o.put("ret", ret);
-			o.put("data", null);
 		}catch(Exception e){
 			log.error(ret);
 			log.error(e.getStackTrace());
 			e.printStackTrace();
 		}
+        o.put("mes", ret > 0 ? "操作成功!" : "操作失败!"); // 返回值兼容批量更新
+        o.put("ret", ret);
+        o.put("data", null);
 		return JacksonUtils.writeValueAsString(o);
 	}
 	
@@ -99,14 +99,14 @@ public class WFProcessInstListener {
 			/*流程结束更新结束时间*/
 			ret = statusService.updateListenerByProcess(processInstID, processInstName, processInstDesc, creator, owner, currentState, createTime, startTime, endTime, finalTime, remindTime, parentProcID, parentActID, processDefID, isTimeOut, timeOutNum, timeOutNumDesc, updateVersion, processDefName, catalogUUID, catalogName, title, receiptId, code, currentUserCode);
 			log.debug(ret);
-			o.put("mes", ret > 0 ? "操作成功!" : "操作失败!"); // 返回值兼容批量更新
-			o.put("ret", ret);
-			o.put("data", null);
 		}catch(Exception e){
 			log.error(ret);
 			log.error(e.getStackTrace());
 			e.printStackTrace();
 		}
+        o.put("mes", ret > 0 ? "操作成功!" : "操作失败!"); // 返回值兼容批量更新
+        o.put("ret", ret);
+        o.put("data", null);
 		return JacksonUtils.writeValueAsString(o);
 	}
 	

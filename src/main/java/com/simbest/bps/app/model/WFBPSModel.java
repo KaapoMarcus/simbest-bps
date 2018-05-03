@@ -12,8 +12,8 @@ import com.wordnik.swagger.annotations.ApiModel;
  * @author Administrator
  *
  */
-//@MappedSuperclass
-//@ApiModel
+@MappedSuperclass
+@ApiModel
 public abstract class WFBPSModel<T>  extends LogicModel<T>{
 
 	

@@ -87,14 +87,14 @@ public class WFWorkItemListener {
 			userTaskSubmitor.createUserTaskCallback(businessStatus, participant);
 			ret = wFWorkItemModelService.created(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName,title, receiptId, code, currentUserCode); 
 			log.debug("WFWorkItemListener>>>>>>>>>>>>>>>>>>>created>>>>>"+ret);
-			o.put("mes", ret > 0 ? "操作成功!" : "操作失败!"); // 返回值兼容批量更新
-			o.put("ret", ret);
-			o.put("data", null);
 		}catch(Exception e){
 			log.error(ret);
 			log.error(e.getStackTrace());
 			e.printStackTrace();
 		}
+        o.put("mes", ret > 0 ? "操作成功!" : "操作失败!"); // 返回值兼容批量更新
+        o.put("ret", ret);
+        o.put("data", null);
 		return JacksonUtils.writeValueAsString(o);
 	}
 	
@@ -135,14 +135,14 @@ public class WFWorkItemListener {
 			WFWorkItemModel wFWorkItemModel = wFWorkItemModelService.getByWorkItemID(Long.parseLong(workItemID));
 			wFOptMsgModelService.create(processDefID,processInstID,activityInstID,workItemID,optMsgList,wFWorkItemModel);
             log.debug("WFWorkItemListener>>>>>>>>>>>>>>>>>>>completed>>>>>"+ret);
-			o.put("mes", ret > 0 ? "操作成功!" : "操作失败!"); // 返回值兼容批量更新
-			o.put("ret", ret);
-			o.put("data", null);
 		}catch(Exception e){
 			log.error(ret);
 			log.error(e.getStackTrace());
 			e.printStackTrace();
 		}
+        o.put("mes", ret > 0 ? "操作成功!" : "操作失败!"); // 返回值兼容批量更新
+        o.put("ret", ret);
+        o.put("data", null);
 		return JacksonUtils.writeValueAsString(o);
 	}
 }
