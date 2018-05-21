@@ -142,7 +142,10 @@ public class ActBusinessStatus extends GenericModel<ActBusinessStatus> {
     private String pmStateFlag;
 
     @Transient
-    private String catalogName; //业务环节名称
+    private String catalogName; //业务目录名称
+
+    @Transient
+    private String catalogUuid; //业务目录ID
 
 
     public Long getId() {
@@ -551,7 +554,11 @@ public class ActBusinessStatus extends GenericModel<ActBusinessStatus> {
         this.catalogName = catalogName;
     }
 
+    public String getCatalogUuid ( ) {
+        return catalogUuid;
+    }
 
-
-
+    public void setCatalogUuid ( String catalogUuid ) {
+        this.catalogUuid = catalogUuid;
+    }
 }
