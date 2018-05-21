@@ -249,7 +249,7 @@
     </select>
 
     <select id="countMyJoin" parameterType="ActBusinessStatus"  resultType="Integer" databaseId="mysql">
-        SELECT COUNT(act_business_status.id) FROM act_business_status,wf_workitem_model WHERE
+        SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model WHERE
         act_business_status.processInstID =wf_workitem_model.processInstID
         and wf_workitem_model.currentState in (12,13) <!-- 完成（12）、终止（13） -->
         and act_business_status.enabled = 1
@@ -319,7 +319,7 @@
     </select>
 
     <select id="countMyJoin" parameterType="ActBusinessStatus"  resultType="Integer" databaseId="oracle">
-        SELECT COUNT(act_business_status.id) FROM act_business_status,wf_workitem_model WHERE
+        SELECT COUNT(DISTINCT act_business_status.id) FROM act_business_status,wf_workitem_model WHERE
         act_business_status.processInstID =wf_workitem_model.processInstID
         and wf_workitem_model.currentState in (12,13) <!-- 完成（12）、终止（13） -->
         and act_business_status.enabled = 1
