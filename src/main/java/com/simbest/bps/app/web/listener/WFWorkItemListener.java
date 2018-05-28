@@ -1,12 +1,17 @@
 package com.simbest.bps.app.web.listener;
 
-import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.eos.workflow.api.IWFWorkItemManager;
+import com.eos.workflow.data.WFOptMsg;
+import com.simbest.bps.app.model.WFWorkItemModel;
+import com.simbest.bps.app.service.IWFOptMsgModelService;
+import com.simbest.bps.app.service.IWFWorkItemModelService;
+import com.simbest.bps.listener.jobs.UserTaskSubmitor;
+import com.simbest.bps.query.model.ActBusinessStatus;
+import com.simbest.bps.query.service.IActBusinessStatusService;
 import com.simbest.cores.admin.authority.model.ShiroUser;
+import com.simbest.cores.admin.authority.service.ISysUserAdvanceService;
 import com.simbest.cores.shiro.AppUserSession;
+import com.simbest.cores.utils.json.JacksonUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.eos.workflow.api.BPSServiceClientFactory;
-import com.eos.workflow.api.IWFWorkItemManager;
-import com.eos.workflow.data.WFOptMsg;
-import com.simbest.cores.admin.authority.service.ISysUserAdvanceService;
-import com.simbest.cores.utils.json.JacksonUtils;
-import com.simbest.bps.app.model.WFWorkItemModel;
-import com.simbest.bps.app.service.IWFOptMsgModelService;
-import com.simbest.bps.app.service.IWFWorkItemModelService;
-import com.simbest.bps.listener.jobs.UserTaskSubmitor;
-import com.simbest.bps.query.model.ActBusinessStatus;
-import com.simbest.bps.query.service.IActBusinessStatusService;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *工作项启动，完成监听接口
@@ -70,8 +68,9 @@ public class WFWorkItemListener {
 			return JacksonUtils.writeValueAsString(o);
 		}
 		int ret = 0;
-		try{
+		try{log.debug("appUserSession>>>>>>>>>>>>>>>>>>>getCurrentUser>>>>>开始");
             ShiroUser user = appUserSession.getCurrentUser();
+            log.debug("appUserSession>>>>>>>>>>>>>>>>>>>getCurrentUser>>>>>结束");
             assistant = user.getUserCode();
             workItemName = URLDecoder.decode( workItemName,"UTF-8" );
             workItemDesc = URLDecoder.decode( workItemDesc,"UTF-8" );
@@ -85,8 +84,9 @@ public class WFWorkItemListener {
 			businessStatus.setWorkItemID(Long.parseLong(workItemID));
 			businessStatus.setActivityDefID(activityDefID);
 			userTaskSubmitor.createUserTaskCallback(businessStatus, participant);
+            log.debug("WFWorkItemListener>>>>>>>>>>>>>>>>>>>create开始>>>>>");
 			ret = wFWorkItemModelService.created(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName,title, receiptId, code, currentUserCode); 
-			log.debug("WFWorkItemListener>>>>>>>>>>>>>>>>>>>created>>>>>"+ret);
+			log.debug("WFWorkItemListener>>>>>>>>>>>>>>>>>>>created结束>>>>>"+ret);
 		}catch(Exception e){
 			log.error(ret);
 			log.error(e.getStackTrace());
