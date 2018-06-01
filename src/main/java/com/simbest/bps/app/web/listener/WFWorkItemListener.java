@@ -8,7 +8,6 @@ import com.simbest.bps.app.service.IWFWorkItemModelService;
 import com.simbest.bps.listener.jobs.UserTaskSubmitor;
 import com.simbest.bps.query.model.ActBusinessStatus;
 import com.simbest.bps.query.service.IActBusinessStatusService;
-import com.simbest.cores.admin.authority.model.ShiroUser;
 import com.simbest.cores.admin.authority.service.ISysUserAdvanceService;
 import com.simbest.cores.shiro.AppUserSession;
 import com.simbest.cores.utils.json.JacksonUtils;
@@ -68,10 +67,10 @@ public class WFWorkItemListener {
 			return JacksonUtils.writeValueAsString(o);
 		}
 		int ret = 0;
-		try{log.debug("appUserSession>>>>>>>>>>>>>>>>>>>getCurrentUser>>>>>开始");
-            ShiroUser user = appUserSession.getCurrentUser();
-            log.debug("appUserSession>>>>>>>>>>>>>>>>>>>getCurrentUser>>>>>结束");
-            assistant = user.getUserCode();
+		try{//log.debug("appUserSession>>>>>>>>>>>>>>>>>>>getCurrentUser>>>>>开始");
+            //ShiroUser user = appUserSession.getCurrentUser();
+            //log.debug("appUserSession>>>>>>>>>>>>>>>>>>>getCurrentUser>>>>>结束");
+            assistant = currentUserCode;
             workItemName = URLDecoder.decode( workItemName,"UTF-8" );
             workItemDesc = URLDecoder.decode( workItemDesc,"UTF-8" );
             processInstName = URLDecoder.decode( processInstName,"UTF-8" );
