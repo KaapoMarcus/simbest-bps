@@ -1,19 +1,20 @@
 package com.simbest.bps.app.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.simbest.bps.app.mapper.WFWorkItemModelMapper;
+import com.simbest.bps.app.model.WFWorkItemModel;
+import com.simbest.bps.app.service.IWFWorkItemModelService;
+import com.simbest.cores.admin.authority.model.ShiroUser;
+import com.simbest.cores.utils.DateUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.simbest.cores.utils.DateUtil;
-import com.simbest.bps.app.mapper.WFWorkItemModelMapper;
-import com.simbest.bps.app.model.WFWorkItemModel;
-import com.simbest.bps.app.service.IWFWorkItemModelService;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 流程工作项业务操作
@@ -185,6 +186,8 @@ public class WFWorkItemModelService extends WFBPSModelService<WFWorkItemModel,Lo
 			String urlType, String catalogUUID, String catalogName,
 			String currentUserCode) {
 		WFWorkItemModel wFWorkItemModel = new WFWorkItemModel();
+        ShiroUser user = (ShiroUser) SecurityUtils.getSubject( ).getPrincipal();
+        log.debug( "WFWorkItemModelService>>>>>>>>>>>>>>updateByWorkItemID>>>>>>>>>>>>>ShiroUser" + (user == null) + user.getUserCode() );
 		wrapUpdateInfo(wFWorkItemModel);
 		wFWorkItemModel.setWorkItemID(Long.parseLong(workItemID));
 		wFWorkItemModel.setWorkItemName(workItemName);
