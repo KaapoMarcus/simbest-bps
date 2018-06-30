@@ -53,24 +53,25 @@ public class WFWorkItemListener {
 	 */
 	@RequestMapping(value = "/created", method = RequestMethod.POST)
 	@ResponseBody
-	public String created(String workItemID,String workItemName,String workItemDesc,String currentState,
+	public String created(String userCode,String workItemID,String workItemName,String workItemDesc,String currentState,
 			String participant,String priority,String isTimeOut,String createTime,String startTime,String endTime,String finalTime,String remindTime,
 			String actionURL,String processInstID,String processInstName,String activityInstID,String activityInstName,String processDefID,
 			String processDefName,String processChName,String activityDefID,String assistant,
 			String bizState,String allowAgent,String urlType,String catalogUUID,String catalogName,
-			String title,String receiptId,String code,String currentUserCode){
+			String title,String receiptId,String code){
 		Map<String, Object> o= new HashMap<String, Object>();
-		if(!wFWorkItemModelService.userLogin(currentUserCode)){
+		if(!wFWorkItemModelService.userLogin(userCode)){
 			o.put("mes", "user login error");
 			o.put("ret", 0);
 			o.put("data", null);
 			return JacksonUtils.writeValueAsString(o);
 		}
 		int ret = 0;
-		try{//log.debug("appUserSession>>>>>>>>>>>>>>>>>>>getCurrentUser>>>>>开始");
+		try{
+		    //log.debug("appUserSession>>>>>>>>>>>>>>>>>>>getCurrentUser>>>>>开始");
             //ShiroUser user = appUserSession.getCurrentUser();
             //log.debug("appUserSession>>>>>>>>>>>>>>>>>>>getCurrentUser>>>>>结束");
-            assistant = currentUserCode;
+            assistant = userCode;
             workItemName = URLDecoder.decode( workItemName,"UTF-8" );
             workItemDesc = URLDecoder.decode( workItemDesc,"UTF-8" );
             processInstName = URLDecoder.decode( processInstName,"UTF-8" );
@@ -84,7 +85,7 @@ public class WFWorkItemListener {
 			businessStatus.setActivityDefID(activityDefID);
 			userTaskSubmitor.createUserTaskCallback(businessStatus, participant);
             log.debug("WFWorkItemListener>>>>>>>>>>>>>>>>>>>create开始>>>>>");
-			ret = wFWorkItemModelService.created(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName,title, receiptId, code, currentUserCode); 
+			ret = wFWorkItemModelService.created(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName,title, receiptId, code, userCode);
 			log.debug("WFWorkItemListener>>>>>>>>>>>>>>>>>>>created结束>>>>>"+ret);
 		}catch(Exception e){
 			log.error(ret);
@@ -102,14 +103,13 @@ public class WFWorkItemListener {
 	 */
 	@RequestMapping(value = "/completed", method = RequestMethod.POST)
 	@ResponseBody
-	public String completed(String workItemID,String workItemName,String workItemDesc,String currentState,
+	public String completed(String userCode,String workItemID,String workItemName,String workItemDesc,String currentState,
 			String participant,String priority,String isTimeOut,String createTime,String startTime,String endTime,String finalTime,String remindTime,
 			String actionURL,String processInstID,String processInstName,String activityInstID,String activityInstName,String processDefID,
 			String processDefName,String processChName,String activityDefID,String assistant,
-			String bizState,String allowAgent,String urlType,String catalogUUID,String catalogName,
-			String currentUserCode){
+			String bizState,String allowAgent,String urlType,String catalogUUID,String catalogName){
 		Map<String, Object> o= new HashMap<String, Object>();
-		if(!wFWorkItemModelService.userLogin(currentUserCode)){
+		if(!wFWorkItemModelService.userLogin(userCode)){
 			o.put("mes", "user login error");
 			o.put("ret", 0);
 			o.put("data", null);
@@ -128,8 +128,8 @@ public class WFWorkItemListener {
 			businessStatus.setWorkItemID(Long.parseLong(workItemID));
 			businessStatus.setActivityDefID(activityDefID);
 			userTaskSubmitor.removeUserTaskCallback(businessStatus, assistant);
-			ret = wFWorkItemModelService.updateByWorkItemID(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName, currentUserCode);
-			ret = statusService.updateListener(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName, currentUserCode);
+			ret = wFWorkItemModelService.updateByWorkItemID(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName, userCode);
+			ret = statusService.updateListener(workItemID, workItemName, workItemDesc, currentState, participant, priority, isTimeOut, createTime, startTime, endTime, finalTime, remindTime, actionURL, processInstID, processInstName, activityInstID, activityInstName, processDefID, processDefName, processChName, activityDefID, assistant, bizState, allowAgent, urlType, catalogUUID, catalogName, userCode);
 			List<WFOptMsg> optMsgList= WFWorkItemManager.getApprovalMsgByTaskID(Long.parseLong(workItemID), null);
 			WFWorkItemModel wFWorkItemModel = wFWorkItemModelService.getByWorkItemID(Long.parseLong(workItemID));
 			wFOptMsgModelService.create(processDefID,processInstID,activityInstID,workItemID,optMsgList,wFWorkItemModel);
