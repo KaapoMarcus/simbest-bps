@@ -1,10 +1,10 @@
 package com.simbest.bps.app.service;
 
-import java.util.List;
-
 import com.eos.workflow.data.WFOptMsg;
 import com.simbest.bps.app.model.WFOptMsgModel;
 import com.simbest.bps.app.model.WFWorkItemModel;
+
+import java.util.List;
 
 /**
  * 流程审批意见业务操作
@@ -31,4 +31,10 @@ public interface IWFOptMsgModelService extends IWFBPSModelService<WFOptMsgModel,
      * @return
      */
     int updateByPInstIDAndWkID(WFOptMsgModel wfOptMsgModel);
+
+    /**
+     * 插入
+     * @param wfOptMsgModel
+     */
+    void inset(WFOptMsgModel wfOptMsgModel);
 }

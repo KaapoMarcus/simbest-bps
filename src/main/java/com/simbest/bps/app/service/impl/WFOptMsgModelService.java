@@ -1,12 +1,12 @@
 package com.simbest.bps.app.service.impl;
 
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.beanutils.BeanUtils;
+import com.eos.workflow.data.WFOptMsg;
+import com.simbest.bps.app.mapper.WFOptMsgModelMapper;
+import com.simbest.bps.app.model.WFOptMsgModel;
+import com.simbest.bps.app.model.WFWorkItemModel;
+import com.simbest.bps.app.service.IWFOptMsgModelService;
+import com.simbest.cores.utils.DateUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -14,12 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.eos.workflow.data.WFOptMsg;
-import com.simbest.cores.utils.DateUtil;
-import com.simbest.bps.app.mapper.WFOptMsgModelMapper;
-import com.simbest.bps.app.model.WFOptMsgModel;
-import com.simbest.bps.app.model.WFWorkItemModel;
-import com.simbest.bps.app.service.IWFOptMsgModelService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 流程审批意见业务操作
@@ -70,6 +67,8 @@ public class WFOptMsgModelService extends WFBPSModelService<WFOptMsgModel,Long> 
 		}
 	}
 
+
+
     /**
      * 根据流程实例ID、标题更新流程审批信息
      * @param processInstID
@@ -100,5 +99,10 @@ public class WFOptMsgModelService extends WFBPSModelService<WFOptMsgModel,Long> 
     @Override
     public int updateByPInstIDAndWkID ( WFOptMsgModel wfOptMsgModel ) {
         return mapper.updateByPInstIDAndWkID(wfOptMsgModel);
+    }
+
+    @Override
+    public void inset ( WFOptMsgModel wfOptMsgModel ) {
+        mapper.create( wfOptMsgModel );
     }
 }
