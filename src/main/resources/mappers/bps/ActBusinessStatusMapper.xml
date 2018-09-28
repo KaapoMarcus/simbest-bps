@@ -341,25 +341,40 @@
         act_business_status.processInstID =wf_workitem_model.processInstID
         and act_business_status.businessKey =m_ha_pm_instance.id
         <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
-        <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
-        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
+        <if test="title != null and title !=''">and act_business_status.title like concat (concat('%',#{title}),'%')</if>
+        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName = #{createUserName}</if>
         <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
         <if test="createOrgName != null and createOrgName !=''"> AND act_business_status.createOrgName = #{createOrgName}</if>
         <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
-        <if test="postName != null and postName =='YZF'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+
+        <if test="postName != null and ( postName =='YZF'.toString() or postName =='YFZ,Z,F,Y'.toString() )">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='Z,Y'.toString()">AND m_ha_pm_instance.positionType in ('Z','Y')</if>
+        <if test="postName != null and postName =='Z,F'.toString()">AND m_ha_pm_instance.positionType in ('Z','F')</if>
+        <if test="postName != null and postName =='F,Y'.toString()">AND m_ha_pm_instance.positionType in ('Y','F')</if>
         <if test="postName != null and postName =='Y'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='Z'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='F'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
 
-        <if test='pmStateFlag != null and pmStateFlag == "00"'>
-            AND wf_workitem_model.processStateFlag in ('01','03','04')
+        <if test='pmStateFlag != null and ( pmStateFlag == "00" or pmStateFlag == "00,01,02,03,04" )'>
+            AND wf_workitem_model.processStateFlag in ('01','02','03','04')
         </if>
+        <if test='pmStateFlag != null and pmStateFlag == "01"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
         <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
         <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
         <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02"'>AND wf_workitem_model.processStateFlag in ('01','02')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,03"'>AND wf_workitem_model.processStateFlag in ('01','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,04"'>AND wf_workitem_model.processStateFlag in ('01','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,03"'>AND wf_workitem_model.processStateFlag in ('02','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,04"'>AND wf_workitem_model.processStateFlag in ('02','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "03,04"'>AND wf_workitem_model.processStateFlag in ('03','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02,03"'>AND wf_workitem_model.processStateFlag in ('01','02','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02,04"'>AND wf_workitem_model.processStateFlag in ('01','02','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,03,04"'>AND wf_workitem_model.processStateFlag in ('01','03','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,03,04"'>AND wf_workitem_model.processStateFlag in ('02','03','04')</if><!-- 已办结 -->
         and act_business_status.enabled = 1
         and wf_workitem_model.enabled = 1
         order by wf_workitem.updateDate desc
@@ -372,30 +387,40 @@
         and wf_workitem_model.enabled = 1
         and act_business_status.businessKey =m_ha_pm_instance.id
         <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
-        <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
-        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
+        <if test="title != null and title !=''">and act_business_status.title like concat (concat('%',#{title}),'%')</if>
+        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName = #{createUserName}</if>
         <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
         <if test="createOrgName != null and createOrgName !=''"> AND act_business_status.createOrgName = #{createOrgName}</if>
         <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
-        <if test="postName != null and postName =='YZF,Y,Z,F'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
-        <if test="postName != null and postName =='Y,Z'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z')</if>
-        <if test="postName != null and postName =='Y,F'.toString()">AND m_ha_pm_instance.positionType in ('Y','F')</if>
+
+        <if test="postName != null and ( postName =='YZF'.toString() or postName =='YFZ,Z,F,Y'.toString() )">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='Z,Y'.toString()">AND m_ha_pm_instance.positionType in ('Z','Y')</if>
         <if test="postName != null and postName =='Z,F'.toString()">AND m_ha_pm_instance.positionType in ('Z','F')</if>
-        <if test="postName != null and postName =='YZF'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='F,Y'.toString()">AND m_ha_pm_instance.positionType in ('Y','F')</if>
         <if test="postName != null and postName =='Y'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='Z'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='F'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
 
-
-        <if test='pmStateFlag != null and pmStateFlag == "00"'>
-            AND wf_workitem_model.processStateFlag in ('01','03','04')
+        <if test='pmStateFlag != null and ( pmStateFlag == "00" or pmStateFlag == "00,01,02,03,04" )'>
+            AND wf_workitem_model.processStateFlag in ('01','02','03','04')
         </if>
+        <if test='pmStateFlag != null and pmStateFlag == "01"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
         <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
         <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
         <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02"'>AND wf_workitem_model.processStateFlag in ('01','02')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,03"'>AND wf_workitem_model.processStateFlag in ('01','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,04"'>AND wf_workitem_model.processStateFlag in ('01','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,03"'>AND wf_workitem_model.processStateFlag in ('02','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,04"'>AND wf_workitem_model.processStateFlag in ('02','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "03,04"'>AND wf_workitem_model.processStateFlag in ('03','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02,03"'>AND wf_workitem_model.processStateFlag in ('01','02','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02,04"'>AND wf_workitem_model.processStateFlag in ('01','02','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,03,04"'>AND wf_workitem_model.processStateFlag in ('01','03','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,03,04"'>AND wf_workitem_model.processStateFlag in ('02','03','04')</if><!-- 已办结 -->
     </select>
 
     <select id="queryManagerFlow" parameterType="ActBusinessStatus" resultMap="ActBusinessStatusResult" databaseId="oracle">
@@ -408,28 +433,40 @@
         act_business_status.processInstID =wf_workitem_model.processInstID
         and act_business_status.businessKey =m_ha_pm_instance.id
         <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
-        <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
-        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
+        <if test="title != null and title !=''">and act_business_status.title like concat (concat('%',#{title}),'%')</if>
+        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName = #{createUserName}</if>
         <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
         <if test="createOrgName != null and createOrgName !=''"> AND act_business_status.createOrgName = #{createOrgName}</if>
         <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
-        <if test="postName != null and postName =='YZF,Y,Z,F'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
-        <if test="postName != null and postName =='Y,Z'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z')</if>
-        <if test="postName != null and postName =='Y,F'.toString()">AND m_ha_pm_instance.positionType in ('Y','F')</if>
+
+        <if test="postName != null and ( postName =='YZF'.toString() or postName =='YFZ,Z,F,Y'.toString() )">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='Z,Y'.toString()">AND m_ha_pm_instance.positionType in ('Z','Y')</if>
         <if test="postName != null and postName =='Z,F'.toString()">AND m_ha_pm_instance.positionType in ('Z','F')</if>
+        <if test="postName != null and postName =='F,Y'.toString()">AND m_ha_pm_instance.positionType in ('Y','F')</if>
         <if test="postName != null and postName =='Y'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='Z'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='F'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
 
-        <if test='pmStateFlag != null and pmStateFlag == "00"'>
-            AND wf_workitem_model.processStateFlag in ('01','03','04')
+        <if test='pmStateFlag != null and ( pmStateFlag == "00" or pmStateFlag == "00,01,02,03,04" )'>
+            AND wf_workitem_model.processStateFlag in ('01','02','03','04')
         </if>
+        <if test='pmStateFlag != null and pmStateFlag == "01"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
         <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
         <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
         <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02"'>AND wf_workitem_model.processStateFlag in ('01','02')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,03"'>AND wf_workitem_model.processStateFlag in ('01','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,04"'>AND wf_workitem_model.processStateFlag in ('01','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,03"'>AND wf_workitem_model.processStateFlag in ('02','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,04"'>AND wf_workitem_model.processStateFlag in ('02','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "03,04"'>AND wf_workitem_model.processStateFlag in ('03','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02,03"'>AND wf_workitem_model.processStateFlag in ('01','02','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02,04"'>AND wf_workitem_model.processStateFlag in ('01','02','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,03,04"'>AND wf_workitem_model.processStateFlag in ('01','03','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,03,04"'>AND wf_workitem_model.processStateFlag in ('02','03','04')</if><!-- 已办结 -->
         and act_business_status.enabled = 1
         and wf_workitem_model.enabled = 1
         order by wf_workitem.updateDate desc
@@ -442,26 +479,40 @@
         and wf_workitem_model.enabled = 1
         and act_business_status.businessKey =m_ha_pm_instance.id
         <if test="currentState != null and currentState !=''">and wf_workitem_model.currentState = #{currentState}</if>  <!-- 待领取（4）、运行（10）、完成（12）、终止（13）、挂起（8） -->
-        <if test="title != null and title !=''">and act_business_status.title like concat('%',#{title},'%')</if>
-        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName like concat('%',#{createUserName},'%')</if>
+        <if test="title != null and title !=''">and act_business_status.title like concat (concat('%',#{title}),'%')</if>
+        <if test="createUserName != null and createUserName !=''">and act_business_status.createUserName = #{createUserName}</if>
         <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
         <if test="createOrgName != null and createOrgName !=''"> AND act_business_status.createOrgName = #{createOrgName}</if>
         <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
-        <if test="postName != null and postName =='YZF'.toString()">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+
+        <if test="postName != null and ( postName =='YZF'.toString() or postName =='YFZ,Z,F,Y'.toString() )">AND m_ha_pm_instance.positionType in ('Y','Z','F')</if>
+        <if test="postName != null and postName =='Z,Y'.toString()">AND m_ha_pm_instance.positionType in ('Z','Y')</if>
+        <if test="postName != null and postName =='Z,F'.toString()">AND m_ha_pm_instance.positionType in ('Z','F')</if>
+        <if test="postName != null and postName =='F,Y'.toString()">AND m_ha_pm_instance.positionType in ('Y','F')</if>
         <if test="postName != null and postName =='Y'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='Z'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
         <if test="postName != null and postName =='F'.toString()">AND m_ha_pm_instance.positionType = #{postName}</if>
 
-
-        <if test='pmStateFlag != null and pmStateFlag == "00"'>
-            AND wf_workitem_model.processStateFlag in ('01','03','04')
+        <if test='pmStateFlag != null and ( pmStateFlag == "00" or pmStateFlag == "00,01,02,03,04" )'>
+            AND wf_workitem_model.processStateFlag in ('01','02','03','04')
         </if>
+        <if test='pmStateFlag != null and pmStateFlag == "01"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
         <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
         <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
         <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02"'>AND wf_workitem_model.processStateFlag in ('01','02')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,03"'>AND wf_workitem_model.processStateFlag in ('01','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,04"'>AND wf_workitem_model.processStateFlag in ('01','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,03"'>AND wf_workitem_model.processStateFlag in ('02','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,04"'>AND wf_workitem_model.processStateFlag in ('02','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "03,04"'>AND wf_workitem_model.processStateFlag in ('03','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02,03"'>AND wf_workitem_model.processStateFlag in ('01','02','03')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,02,04"'>AND wf_workitem_model.processStateFlag in ('01','02','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "01,03,04"'>AND wf_workitem_model.processStateFlag in ('01','03','04')</if><!-- 已办结 -->
+        <if test='pmStateFlag != null and pmStateFlag == "02,03,04"'>AND wf_workitem_model.processStateFlag in ('02','03','04')</if><!-- 已办结 -->
     </select>
 
     <!--部门进度查询-->
