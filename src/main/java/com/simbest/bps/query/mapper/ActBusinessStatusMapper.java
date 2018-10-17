@@ -22,6 +22,13 @@ public interface ActBusinessStatusMapper extends IGenericMapper<ActBusinessStatu
 	List<ActBusinessStatus> queryMyTask(ActBusinessStatus o, RowBounds rowBounds);
 
     /**
+     * 查询待办  不带分页参数
+     * @param o
+     * @return
+     */
+    List<ActBusinessStatus> queryMyTask(ActBusinessStatus o);
+
+    /**
      * 统计待办
      * @param o
      * @return

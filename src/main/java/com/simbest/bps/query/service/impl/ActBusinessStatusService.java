@@ -136,8 +136,21 @@ public class ActBusinessStatusService extends GenericMapperService<ActBusinessSt
         PageSupport ps = new PageSupport(list, count, pageindex, pagesize);
         return ps;
 	}
-	
-	/**
+
+    /**
+     * 查询我的待办  不带分页参数
+     * @param uniqueCode
+     * @param o
+     * @return
+     */
+    @Override
+    public List<ActBusinessStatus> queryMyTask ( String uniqueCode, ActBusinessStatus o ) {
+        o.setUniqueCode(uniqueCode);
+        List<ActBusinessStatus> list = mapper.queryMyTask(o);
+        return list;
+    }
+
+    /**
      * 查询我的已办
      *
      */

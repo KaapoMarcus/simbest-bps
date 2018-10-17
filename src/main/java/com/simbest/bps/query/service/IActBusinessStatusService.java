@@ -3,12 +3,11 @@
  */
 package com.simbest.bps.query.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.simbest.bps.query.model.ActBusinessStatus;
 import com.simbest.cores.service.IGenericService;
 import com.simbest.cores.utils.pages.PageSupport;
-import com.simbest.bps.query.model.ActBusinessStatus;
+
+import java.util.List;
 
 /**
  * 查询待办信息业务操作
@@ -20,6 +19,12 @@ public interface IActBusinessStatusService extends IGenericService<ActBusinessSt
      *
      */
 	PageSupport<ActBusinessStatus> queryMyTask(String uniqueCode,ActBusinessStatus o,int pageindex, int pagesize);
+
+    /**
+     * 查询我的待办  不带分页参数
+     *
+     */
+	List<ActBusinessStatus> queryMyTask(String uniqueCode,ActBusinessStatus o);
 
     /**
      * 查询我的已办
