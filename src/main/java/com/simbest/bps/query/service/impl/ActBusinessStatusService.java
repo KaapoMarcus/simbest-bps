@@ -113,7 +113,9 @@ public class ActBusinessStatusService extends GenericMapperService<ActBusinessSt
 
 	private void wrapCreateInfo(ActBusinessStatus actBusinessStatus) {
 		ShiroUser user = appUserSession.getCurrentUser();
+		log.debug( "ActBusinessStatusService>>>>>>wrapCreateInfo:user:" + user );
 		SysOrg sysOrg = sysOrgAdvanceService.loadByKey(user.getOrgId());
+        log.debug( "ActBusinessStatusService>>>>>>wrapCreateInfo:user:" + sysOrg );
 		actBusinessStatus.setCreateUserId(user.getUserId());
 		actBusinessStatus.setCreateUserCode(user.getUserCode());
 		actBusinessStatus.setCreateUserName(user.getUserName());
