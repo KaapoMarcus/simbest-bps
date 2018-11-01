@@ -593,11 +593,8 @@
         wf_workitem.participant,
         wf_workitem.assistant,
         wf_workitem.startTime AS workItemStartTime
-        FROM act_business_status
-        LEFT JOIN (
-        SELECT *
-        FROM wf_workitem_model A
-        WHERE workItemID = ( SELECT max(workItemID) FROM wf_workitem_model B WHERE A.processInstID = B.processInstID)) wf_workitem,
+        FROM act_business_status,
+        ( SELECT * FROM wf_workitem_model A WHERE workItemID = ( SELECT max(workItemID) FROM wf_workitem_model B WHERE A.processInstID = B.processInstID)) wf_workitem,
         wf_workitem_model,
         m_ha_pm_instance,
         user_snapshot
