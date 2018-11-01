@@ -588,27 +588,24 @@
         m_ha_pm_instance.assessor_name,
         user_snapshot.postName,
         wf_workitem.workItemID,
-        wf_workitem_model.activityDefID,
-        wf_workitem_model.activityInstName,
-        wf_workitem_model.participant,
-        wf_workitem_model.assistant,
-        wf_workitem_model.startTime AS workItemStartTime
+        wf_workitem.activityDefID,
+        wf_workitem.activityInstName,
+        wf_workitem.participant,
+        wf_workitem.assistant,
+        wf_workitem.startTime AS workItemStartTime
         FROM act_business_status
         LEFT JOIN (
         SELECT *
         FROM wf_workitem_model A
-        WHERE workItemID = (
-        SELECT max(workItemID)
-        FROM wf_workitem_model B
-        WHERE A.processInstID = B.processInstID
-        )
-        ) wf_workitem ON wf_workitem.processInstID = act_business_status.processInstID,
-        wf_workitem_model,m_ha_pm_instance,user_snapshot
-        WHERE act_business_status.processInstID = wf_workitem_model.processInstID
-        AND act_business_status.businessKey = m_ha_pm_instance.id
+        WHERE workItemID = ( SELECT max(workItemID) FROM wf_workitem_model B WHERE A.processInstID = B.processInstID)) wf_workitem,
+        wf_workitem_model,
+        m_ha_pm_instance,
+        user_snapshot
+        WHERE wf_workitem.processInstID = act_business_status.processInstID
+        act_business_status.businessKey = m_ha_pm_instance.id
         AND m_ha_pm_instance.snapshot_id = user_snapshot.id
         AND act_business_status.enabled = 1
-        AND wf_workitem_model.enabled = 1
+        AND wf_workitem.enabled = 1
         <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
         <if test="createUserName != null and createUserName !=''"> AND act_business_status.createUserName like concat(concat('%',#{createUserName},)'%')</if>
         <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
@@ -616,7 +613,7 @@
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
         <if test="PM_MONTH != null and PM_MONTH !=''">AND m_ha_pm_instance.PM_MONTH = #{PM_MONTH}</if>
         <if test='pmStateFlag != null and pmStateFlag == "00"'>
-            AND wf_workitem_model.processStateFlag in ('01','03','04')
+            AND wf_workitem.processStateFlag in ('01','03','04')
         </if>
         <if test='pmStateFlag != null and pmStateFlag == "01"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if>
         <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
