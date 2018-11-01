@@ -602,7 +602,7 @@
         m_ha_pm_instance,
         user_snapshot
         WHERE wf_workitem.processInstID = act_business_status.processInstID
-        act_business_status.businessKey = m_ha_pm_instance.id
+        AND act_business_status.businessKey = m_ha_pm_instance.id
         AND m_ha_pm_instance.snapshot_id = user_snapshot.id
         AND act_business_status.enabled = 1
         AND wf_workitem.enabled = 1
