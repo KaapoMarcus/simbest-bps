@@ -618,6 +618,7 @@
         <if test='pmStateFlag != null and pmStateFlag == "00"'>
             AND wf_workitem_model.processStateFlag in ('01','03','04')
         </if>
+        <if test='pmStateFlag != null and pmStateFlag == "01"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if>
         <if test='pmStateFlag != null and pmStateFlag == "02"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if> <!--签订-->
         <if test='pmStateFlag != null and pmStateFlag == "03"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 评定 -->
         <if test='pmStateFlag != null and pmStateFlag == "04"'>AND wf_workitem_model.processStateFlag = #{pmStateFlag}</if><!-- 已办结 -->
