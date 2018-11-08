@@ -604,7 +604,7 @@
         AND act_business_status.enabled = 1
         AND wf_workitem.enabled = 1
         <if test="createOrgId != null and createOrgId !=''"> AND act_business_status.createOrgId = #{createOrgId}</if>
-        <if test="createUserName != null and createUserName !=''"> AND act_business_status.createUserName like concat(concat('%',#{createUserName},)'%')</if>
+        <if test="createUserName != null and createUserName !=''"> AND act_business_status.createUserName like concat(concat('%',#{createUserName}),'%')</if>
         <if test="PM_TYPE != null and PM_TYPE !=''">AND m_ha_pm_instance.PM_TYPE = #{PM_TYPE}</if>
         <if test="PM_YEAR != null and PM_YEAR !=''">AND m_ha_pm_instance.PM_YEAR = #{PM_YEAR}</if>
         <if test="PM_QUARTER != null and PM_QUARTER !=''">AND m_ha_pm_instance.PM_QUARTER = #{PM_QUARTER}</if>
